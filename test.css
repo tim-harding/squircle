@@ -4,4 +4,5 @@ body {
 
 .radius-1rem {
   --radius: 1rem;
+  height: 4rem;
 }

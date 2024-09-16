@@ -1,3 +1,10 @@
 .squircle {
-  background-image: paint(squircle);
+  border-radius: var(--radius);
+}
+
+@supports (background-image: paint(id)) {
+  .squircle {
+    border-radius: 0px;
+    background-image: paint(squircle);
+  }
 }
