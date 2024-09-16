@@ -46,7 +46,7 @@ function superellipse_parametric(r, s) {
   }
 }
 
-const SEGMENTS = 16;
+const SEGMENTS = 4;
 const CACHE = new Float32Array((SEGMENTS + 1) * 2);
 
 class Squircle {
@@ -67,27 +67,41 @@ class Squircle {
     const { width: w, height: h } = size;
     /** @type {CSSUnitValue} */
     const radius = props.get("--radius");
-    const r = Math.min(radius.value, w / 2, h / 2);
+    // const r = Math.min(radius.value, w / 2, h / 2);
 
-    const den = Math.PI / 4 / SEGMENTS;
-    for (let i = 0; i < SEGMENTS + 1; i++) {
-      const t = i * den;
-      const x = Math.cos(t) ** 4;
-      const y = Math.sin(t) ** 4;
-      const j = i * 2;
-      CACHE[j] = x;
-      CACHE[j + 1] = y;
-    }
+    const r = 32;
 
+    const den = Math.PI / 2 / SEGMENTS;
     ctx.fillStyle = "white";
-    ctx.moveTo(0, 0);
-    for (let i = 0; i < SEGMENTS + 1; i++) {
-      const j = i * 2;
-      const x = CACHE[j] * 32;
-      const y = CACHE[j + 1] * 32;
-      console.log(x, y);
+    ctx.moveTo(w, h - r);
+    for (let i = 1; i < SEGMENTS + 1; i++) {
+      const t = i * den;
+      const x = Math.cos(t) ** 1 * r + w - r;
+      const y = Math.sin(t) ** 1 * r + h - r;
       ctx.lineTo(x, y);
     }
+
+    for (let i = SEGMENTS; i < SEGMENTS * 2 + 1; i++) {
+      const t = i * den;
+      const x = Math.cos(t) ** 1 * r + r;
+      const y = Math.sin(t) ** 1 * r + h - r;
+      ctx.lineTo(x, y);
+    }
+
+    for (let i = SEGMENTS * 2; i < SEGMENTS * 3 + 1; i++) {
+      const t = i * den;
+      const x = Math.cos(t) ** 1 * r + r;
+      const y = Math.sin(t) ** 1 * r + r;
+      ctx.lineTo(x, y);
+    }
+
+    for (let i = SEGMENTS * 3; i < SEGMENTS * 4 + 1; i++) {
+      const t = i * den;
+      const x = Math.cos(t) ** 1 * r + w - r;
+      const y = Math.sin(t) ** 1 * r + r;
+      ctx.lineTo(x, y);
+    }
+
     ctx.closePath();
     ctx.fill();
   }
