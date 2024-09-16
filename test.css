@@ -1,8 +1,18 @@
 body {
+  display: grid;
+  gap: 1rem;
   background-color: black;
 }
 
+.white {
+  background-color: white;
+}
+
+.rounded {
+  border-radius: var(--radius);
+}
+
 .radius-1rem {
-  --radius: 1rem;
-  height: 8rem;
+  --radius: 2rem;
+  height: 16rem;
 }
