@@ -4,7 +4,7 @@
 
 @supports (background-image: paint(id)) {
   .squircle {
-    border-radius: 0px;
+    border-radius: initial;
     background-image: paint(squircle);
   }
 }
