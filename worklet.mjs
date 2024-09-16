@@ -32,38 +32,27 @@ class Squircle {
     const den = Math.PI / 2 / segments;
 
     ctx.moveTo(w, h - l);
-    for (let i = 1; i < segments; i++) {
-      const t = i * den;
-      const x = Math.cos(t) ** n * l + w - l;
-      const y = Math.sin(t) ** n * l + h - l;
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(w - l, h);
-
-    ctx.lineTo(l, h);
-    for (let i = segments + 1; i < segments * 2; i++) {
-      const t = i * den;
-      const x = -((-Math.cos(t)) ** n) * l + l;
-      const y = Math.sin(t) ** n * l + h - l;
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(0, h - l);
-
-    ctx.lineTo(0, l);
-    for (let i = segments * 2 + 1; i < segments * 3; i++) {
-      const t = i * den;
-      const x = -((-Math.cos(t)) ** n) * l + l;
-      const y = -((-Math.sin(t)) ** n) * l + l;
-      ctx.lineTo(x, y);
-    }
-    ctx.lineTo(l, 0);
-
-    ctx.lineTo(w - l, 0);
-    for (let i = segments * 3 + 1; i < segments * 4; i++) {
-      const t = i * den;
-      const x = Math.cos(t) ** n * l + w - l;
-      const y = -((-Math.sin(t)) ** n) * l + l;
-      ctx.lineTo(x, y);
+    ctx.resetTransform();
+    for (let i = 0; i < 4; i++) {
+      const left = i > 0 && i < 3;
+      const top = i > 1;
+      const offset_x = left ? l : w - l;
+      const offset_y = top ? l : h - l;
+      const o = i % 2;
+      const e = 1 - o;
+      const rotate_sign_y = left ? -1 : 1;
+      const rotate_sign_x = top ? -1 : 1;
+      const m11 = e * rotate_sign_x;
+      const m21 = o * rotate_sign_x;
+      const m12 = o * rotate_sign_y;
+      const m22 = e * rotate_sign_y;
+      ctx.setTransform(m11, m21, m12, m22, offset_x, offset_y);
+      for (let j = 0; j < segments + 1; j++) {
+        const t = j * den;
+        const x = Math.cos(t) ** n * l;
+        const y = Math.sin(t) ** n * l;
+        ctx.lineTo(x, y);
+      }
     }
 
     ctx.fillStyle = "white";
