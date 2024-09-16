@@ -6,9 +6,9 @@ class Squircle {
   /**
    * @param {OffscreenCanvasRenderingContext2D} ctx
    */
-  paint(ctx) {
+  paint(ctx, size) {
     ctx.fillStyle = "white";
-    ctx.fillRect(0, 15, 200, 20);
+    ctx.fillRect(0, 0, size.width, size.height);
   }
 }
 
