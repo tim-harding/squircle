@@ -1,3 +1,7 @@
+body {
+  background-color: black;
+}
+
 .radius-1rem {
   --squircle-radius: 1rem;
 }
