@@ -2,6 +2,7 @@ body {
   display: grid;
   gap: 1rem;
   background-color: black;
+  --segments: 16;
 }
 
 .white {
