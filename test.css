@@ -13,6 +13,6 @@ body {
 }
 
 .radius-1rem {
-  --radius: 2rem;
+  --radius: 1rem;
   height: 16rem;
 }
