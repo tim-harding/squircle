@@ -10,7 +10,7 @@
 
 class Squircle {
   static get contextOptions() {
-    return { alpha: false };
+    return { alpha: true };
   }
 
   static get inputProperties() {
@@ -42,15 +42,15 @@ class Squircle {
       const e = 1 - o;
       const rotate_sign_y = left ? -1 : 1;
       const rotate_sign_x = top ? -1 : 1;
-      const m11 = e * rotate_sign_x;
-      const m21 = o * rotate_sign_x;
-      const m12 = o * rotate_sign_y;
-      const m22 = e * rotate_sign_y;
+      const m11 = e * rotate_sign_x * l;
+      const m21 = o * rotate_sign_x * l;
+      const m12 = o * rotate_sign_y * l;
+      const m22 = e * rotate_sign_y * l;
       ctx.setTransform(m11, m21, m12, m22, offset_x, offset_y);
       for (let j = 0; j < segments + 1; j++) {
         const t = j * den;
-        const x = Math.cos(t) ** n * l;
-        const y = Math.sin(t) ** n * l;
+        const x = Math.cos(t) ** n;
+        const y = Math.sin(t) ** n;
         ctx.lineTo(x, y);
       }
     }

@@ -1,8 +1,7 @@
 body {
   display: grid;
   gap: 1rem;
-  background-color: black;
-  --segments: 3;
+  background-color: grey;
 }
 
 .white {
