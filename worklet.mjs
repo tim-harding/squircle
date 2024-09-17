@@ -8,11 +8,6 @@
  * @property {number} height
  */
 
-const fills = [
-  ["", 0],
-  ["", 0],
-];
-
 class Squircle {
   static get contextOptions() {
     return { alpha: true };
@@ -38,8 +33,6 @@ class Squircle {
     const fill = props.get("--squircle-fill");
     const borderWidth = props.get("--squircle-border-width").value;
     const borderColor = props.get("--squircle-border-color");
-
-    console.log(fill);
 
     const drawBorder = borderWidth !== "0" && borderColor !== "transparent";
     const drawFill = fill !== "transparent";

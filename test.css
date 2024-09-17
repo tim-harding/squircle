@@ -4,18 +4,17 @@ body {
   background-color: grey;
 }
 
-.white {
-  background-color: white;
-}
-
 .rounded {
   border-radius: var(--radius);
+  background-color: white;
+  border: 8px solid black;
 }
 
 .radius-1rem {
-  --squircle-radius: 1rem;
-  --squircle-fill: red;
+  --radius: 1rem;
+  --squircle-radius: var(--radius);
+  --squircle-fill: white;
   --squircle-border-width: 8px;
-  --squircle-border-color: blue;
+  --squircle-border-color: black;
   height: 16rem;
 }
