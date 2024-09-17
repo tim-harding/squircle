@@ -13,6 +13,9 @@ body {
 }
 
 .radius-1rem {
-  --radius: 1rem;
+  --squircle-radius: 1rem;
+  --squircle-fill: red;
+  --squircle-border-width: 8px;
+  --squircle-border-color: blue;
   height: 16rem;
 }
