@@ -8,12 +8,5 @@ export function register() {
     initialValue: "0px",
   });
 
-  CSS.registerProperty({
-    name: "--segments",
-    syntax: "<number>",
-    inherits: true,
-    initialValue: "16",
-  });
-
   CSS.paintWorklet.addModule("/worklet.mjs");
 }

@@ -14,7 +14,7 @@ class Squircle {
   }
 
   static get inputProperties() {
-    return ["--radius", "--segments"];
+    return ["--radius"];
   }
 
   /**
@@ -24,10 +24,10 @@ class Squircle {
    */
   paint(ctx, size, props) {
     const { width: w, height: h } = size;
-    const radius = props.get("--radius");
-    const segments = props.get("--segments").value;
     const l = Math.min(w, h) / 2;
+    const radius = props.get("--radius");
     const r = Math.min(radius.value, l);
+    const segments = Math.ceil(Math.sqrt(r)) * 4;
     const n = r / l;
     const den = Math.PI / 2 / segments;
 
