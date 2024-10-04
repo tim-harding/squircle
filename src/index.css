@@ -1,13 +1,17 @@
 .squircle {
   border-radius: var(--squircle-radius);
   background-color: var(--squircle-fill);
-  border: var(--squircle-border-width) var(--squircle-border-color) solid;
+  border-color: var(--squircle-border-color);
+  border-width: var(--squircle-border-width);
+  border-style: solid;
 }
 
 @supports (background: paint(id)) {
   .squircle {
+    border-color: initial;
+    border-width: initial;
     border-radius: initial;
-    border: initial;
+    border-style: initial;
     background: paint(squircle);
   }
 }
