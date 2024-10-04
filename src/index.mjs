@@ -3,37 +3,42 @@
  *
  * @param {string} workletUrl The url where the worklet is being served. This
  * cannot be imported like a normal JavaScript module.
+ *
+ * @param {boolean} usePrefix Whether to prefix property names with 'squircle-'.
+ * Defaults to true.
  */
-export function register(workletUrl) {
-  if (!CSS || !CSS.registerProperty || !CSS.paintWorklet) return;
+export function register(workletUrl, usePrefix = true) {
+  if (!CSS || !CSS.registerProperty) return;
+  const prefix = usePrefix ? "squircle-" : "";
 
   CSS.registerProperty({
-    name: "--squircle-radius",
+    name: `--${prefix}radius`,
     syntax: "<length>",
     inherits: false,
     initialValue: "0px",
   });
 
   CSS.registerProperty({
-    name: "--squircle-border-width",
+    name: `--${prefix}border-width`,
     syntax: "<length>",
     inherits: false,
     initialValue: "0px",
   });
 
   CSS.registerProperty({
-    name: "--squircle-fill",
+    name: `--${prefix}fill`,
     syntax: "<color>",
     inherits: true,
     initialValue: "transparent",
   });
 
   CSS.registerProperty({
-    name: "--squircle-border-color",
+    name: `--${prefix}border-color`,
     syntax: "<color>",
     inherits: true,
     initialValue: "transparent",
   });
 
+  if (!CSS.paintWorklet) return;
   CSS.paintWorklet.addModule(workletUrl);
 }
