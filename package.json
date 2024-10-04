@@ -1,5 +1,5 @@
 {
-  "name": "paint-squircle",
+  "name": "superellipse-squircle",
   "version": "0.1.0",
   "private": true,
   "main": "index.mjs",
@@ -11,7 +11,8 @@
     "squircle",
     "houdini",
     "paint",
-    "css"
+    "css",
+    "superellipse"
   ],
   "author": {
     "name": "Tim Harding",
@@ -20,11 +21,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tim-harding/paint-squircle.git"
+    "url": "git+https://github.com/tim-harding/superellipse-squircle.git"
   },
-  "homepage": "https://github.com/tim-harding/paint-squircle",
+  "homepage": "https://github.com/tim-harding/superellipse-squircle",
   "bugs": {
-    "url": "https://github.com/tim-harding/paint-squircle/issues",
+    "url": "https://github.com/tim-harding/superellipse-squircle/issues",
     "email": "tim@timharding.co"
   },
   "funding": {
