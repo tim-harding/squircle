@@ -4,8 +4,8 @@
   "private": true,
   "main": "index.mjs",
   "scripts": {
-    "serve": "node node_modules/live-server/live-server.js",
-    "build": "./build.sh"
+    "serve": "node scripts/serve.js",
+    "build": "scripts/build.sh"
   },
   "keywords": [
     "squircle",
@@ -36,6 +36,7 @@
   "devDependencies": {
     "@fsouza/prettierd": "^0.25.3",
     "live-server": "^1.2.2",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "uglify-js": "^3.19.3"
   }
 }
