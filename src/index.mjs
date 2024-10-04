@@ -1,4 +1,10 @@
-export function register() {
+/**
+ * Register the squircle CSS Paint worklet.
+ *
+ * @param {string} workletUrl The url where the worklet is being served. This
+ * cannot be imported like a normal JavaScript module.
+ */
+export function register(workletUrl) {
   if (!CSS || !CSS.registerProperty || !CSS.paintWorklet) return;
 
   CSS.registerProperty({
@@ -29,5 +35,5 @@ export function register() {
     initialValue: "transparent",
   });
 
-  CSS.paintWorklet.addModule("/worklet.mjs");
+  CSS.paintWorklet.addModule(workletUrl);
 }
