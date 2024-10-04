@@ -1,4 +1,4 @@
-# Squircle
+# Squircle [![Version](https://img.shields.io/npm/v/superellipse-squircle)](https://www.npmjs.com/package/superellipse-squircle)
 
 The smoothest CSS squircles south of Saskatchewan.
 Powered by superellipses and CSS Houdini 🪄.
