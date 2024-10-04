@@ -2,7 +2,7 @@
   "name": "example",
   "version": "1.0.0",
   "scripts": {
-    "serve": "node_modules/live-server/live-server.js --mount=/components:./node_modules"
+    "serve": "node_modules/live-server/live-server.js"
   },
   "dependencies": {
     "superellipse-squircle": "^0.1.0"

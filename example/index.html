@@ -1,11 +1,10 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="index.mjs" type="module" async></script>
-    <link href="/components/superellipse-squircle/index.css" rel="stylesheet" />
-    <title>Example</title>
+    <link
+      href="/node_modules/superellipse-squircle/index.css"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
@@ -18,5 +17,10 @@
         height: 4rem;
       "
     ></div>
+
+    <script type="module">
+      import { register } from "/node_modules/superellipse-squircle/index.mjs";
+      register("/node_modules/superellipse-squircle/worklet.min.js");
+    </script>
   </body>
 </html>
