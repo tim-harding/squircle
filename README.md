@@ -5,7 +5,7 @@ Powered by superellipses and CSS Houdini 🪄.
 
 ## Usage
 
-See `/example/index.html` for a barebones library demo.
+See `example/index.html` for a barebones library demo.
 First, initialize the library.
 
 ```js

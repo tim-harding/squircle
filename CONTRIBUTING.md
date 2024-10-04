@@ -29,5 +29,7 @@ npm run build
 ## Publish
 
 ```sh
+cd package
 npm publish
+cd ..
 ```
