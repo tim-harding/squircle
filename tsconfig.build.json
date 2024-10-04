@@ -1,0 +1,15 @@
+{
+  "exclude": [],
+  "include": [
+    "index.mjs"
+  ],
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": "."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "include": [
+    "src/index.mjs"
+  ],
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "strict": true,
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "package"
+  }
+}
