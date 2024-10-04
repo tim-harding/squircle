@@ -1,3 +1,3 @@
-import { register } from "/index.mjs";
+import { register } from "/src/index.mjs";
 
-register();
+register("/src/worklet.mjs");

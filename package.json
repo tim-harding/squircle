@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.mjs",
   "scripts": {
-    "serve": "node scripts/serve.js",
+    "serve": "node scripts/serve.mjs",
     "build": "scripts/build.sh"
   },
   "keywords": [
