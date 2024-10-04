@@ -4,7 +4,8 @@
   "private": true,
   "main": "index.mjs",
   "scripts": {
-    "serve": "node node_modules/live-server/live-server.js"
+    "serve": "node node_modules/live-server/live-server.js",
+    "build": "./build.sh"
   },
   "keywords": [
     "squircle",
