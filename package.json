@@ -1,14 +1,19 @@
 {
-  "name": "squircle",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "paint-squircle",
+  "version": "0.1.0",
+  "main": "index.mjs",
   "scripts": {
     "serve": "node node_modules/live-server/live-server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "squircle",
+    "houdini",
+    "paint",
+    "css"
+  ],
+  "author": "Tim Harding",
+  "license": "MIT",
+  "description": "Squircles using CSS paint worklets",
   "devDependencies": {
     "@fsouza/prettierd": "^0.25.3",
     "live-server": "^1.2.2",
