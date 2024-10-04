@@ -3,6 +3,8 @@
   "version": "0.1.1",
   "private": true,
   "main": "index.mjs",
+  "description": "Smoothest CSS squircles south of Saskatchewan",
+  "license": "MIT",
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "build": "scripts/build.sh"
@@ -32,8 +34,6 @@
     "type": "GitHub Sponsors",
     "url": "https://github.com/sponsors/tim-harding"
   },
-  "license": "MIT",
-  "description": "Squircles using CSS paint worklets",
   "devDependencies": {
     "@fsouza/prettierd": "^0.25.3",
     "live-server": "^1.2.2",
