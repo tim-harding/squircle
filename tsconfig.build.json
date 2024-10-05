@@ -1,7 +1,7 @@
 {
   "exclude": [],
   "include": [
-    "index.mjs"
+    "index.min.js"
   ],
   "compilerOptions": {
     "module": "esnext",
