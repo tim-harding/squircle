@@ -1,6 +1,6 @@
 {
   "name": "superellipse-squircle",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "main": "index.mjs",
   "description": "Smoothest CSS squircles south of Saskatchewan",
