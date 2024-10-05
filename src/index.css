@@ -6,7 +6,7 @@
   border-style: solid;
 }
 
-@supports (background: paint(id)) {
+@supports (paint(id)) {
   .squircle {
     border-color: initial;
     border-width: initial;
