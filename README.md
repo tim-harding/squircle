@@ -5,14 +5,21 @@ Powered by superellipses and CSS Houdini 🪄.
 
 ## Usage
 
-See `example/index.html` for a barebones library demo.
+### CSS
+
 First, initialize the library.
 
 ```js
 import { register } from "superellipse-squircle/index.mjs";
-import "superellipse-squircle/index.css"; // Or link it in your HTML
-
 register("superellipse-squircle/worklet.min.js");
+```
+
+Optionally, also import the provided `squircle` CSS class or link it in your
+CSS. This provides a fallback to ordinary rounded rectangles on unsupported
+browsers.
+
+```jsx
+import "superellipse-squircle/index.css";
 ```
 
 Note that the worklet is not a JavaScript module and your bundler won't know to
@@ -48,4 +55,14 @@ example, to use `--radius` instead of `--squircle-radius`:
 .squircle {
   --squircle-radius: var(--radius);
 }
+```
+
+### Canvas
+
+You can also use the squircle drawing code directly in an HTML canvas. Import
+the `paint` function to draw into a canvas context.
+
+```js
+import { paint } from "superellipse-squircle";
+paint(canvasContext, posX, posY, width, height, borderRadius);
 ```
