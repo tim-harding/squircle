@@ -5,7 +5,5 @@ description: >-
 baseurl: "/squircle"
 url: "https://tim-harding.github.io"
 github_username: tim-harding
-theme: minima
 plugins:
-  - jekyll-feed
 exclude:
