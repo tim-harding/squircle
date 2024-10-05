@@ -3,8 +3,8 @@
 Clone the repo and install dependencies.
 
 ```sh
-git clone git@github.com:tim-harding/superellipse-squircle.git
-cd superellipse-squircle
+git clone git@github.com:tim-harding/squircle.git
+cd squircle
 npm install
 ```
 

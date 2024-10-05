@@ -3,7 +3,7 @@
 The smoothest CSS squircles south of Saskatchewan.
 Powered by superellipses and CSS Houdini 🪄.
 Visit the project site and [experience the
-magic](https://tim-harding.github.io/superellipse-squircle/).
+magic](https://tim-harding.github.io/squircle/).
 
 ## Usage
 

@@ -24,11 +24,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tim-harding/superellipse-squircle.git"
+    "url": "git+https://github.com/tim-harding/squircle.git"
   },
-  "homepage": "https://github.com/tim-harding/superellipse-squircle",
+  "homepage": "https://tim-harding.github.io/squircle",
   "bugs": {
-    "url": "https://github.com/tim-harding/superellipse-squircle/issues",
+    "url": "https://github.com/tim-harding/squircle/issues",
     "email": "tim@timharding.co"
   },
   "funding": {
