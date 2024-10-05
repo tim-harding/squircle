@@ -8,7 +8,7 @@
   "scripts": {
     "serve": "node scripts/serve.mjs",
     "build": "scripts/build.sh",
-    "package": "scripts/package.sh"
+    "publish": "scripts/publish.sh"
   },
   "keywords": [
     "squircle",

@@ -1,4 +1,4 @@
 npm run build
-cd package
+cd build
 npm publish
 cd ..
