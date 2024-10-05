@@ -1,7 +1,7 @@
 {
   "exclude": [],
   "include": [
-    "index.min.js"
+    "build/**/*"
   ],
   "compilerOptions": {
     "module": "esnext",
@@ -10,6 +10,6 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "declarationMap": true,
-    "outDir": "."
+    "outDir": "build"
   }
 }
