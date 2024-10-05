@@ -1,4 +1,4 @@
-import paint from "./squircle.mjs";
+import { paint } from "./index.mjs";
 
 /**
  * @typedef {CanvasRenderingContext2D} PaintRenderingContext2D
