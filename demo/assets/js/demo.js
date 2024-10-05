@@ -1,7 +1,7 @@
-// TODO: Need to bundle paint function into worklet file to avoid CORS issues
+import { register } from "https://unpkg.com/superellipse-squircle@0.1.3/index.mjs";
 
 function main() {
-  console.log("Hello");
+  register("https://unpkg.com/superellipse-squircle@0.1.3/worklet.min.js");
 }
 
 main();

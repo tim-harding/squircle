@@ -1,6 +1,9 @@
 ---
 ---
 
-body {
-  background-color: blue;
+.my-squircle {
+  width: 12rem;
+  height: 12rem;
+  --squircle-fill: black;
+  --squircle-radius: 1rem;
 }
