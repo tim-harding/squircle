@@ -51,7 +51,7 @@ class Squircle {
         borderWidth,
         width - borderWidth * 2,
         height - borderWidth * 2,
-        radius - borderWidth,
+        radius - borderWidth / Math.SQRT2,
       );
     }
   }

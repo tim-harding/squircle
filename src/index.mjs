@@ -1,8 +1,7 @@
 /**
  * Register the squircle CSS Paint worklet.
  *
- * @param {string} workletUrl The url where the worklet is being served. This
- * cannot be imported like a normal JavaScript module.
+ * @param {string} workletUrl URL of the squircle paint worklet
  */
 export function register(workletUrl) {
   if (!CSS || !CSS.registerProperty) return;
