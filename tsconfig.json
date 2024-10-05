@@ -1,6 +1,6 @@
 {
   "include": [
-    "src/index.mjs"
+    "src/*"
   ],
   "compilerOptions": {
     "module": "esnext",

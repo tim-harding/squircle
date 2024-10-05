@@ -35,6 +35,8 @@ export function register(workletUrl) {
     initialValue: "transparent",
   });
 
+  /* @ts-ignore */
   if (!CSS.paintWorklet) return;
+  /* @ts-ignore */
   CSS.paintWorklet.addModule(workletUrl);
 }
