@@ -1,14 +1,13 @@
 {
   "name": "superellipse-squircle",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "main": "index.mjs",
   "description": "Smoothest CSS squircles south of Saskatchewan",
   "license": "MIT",
   "scripts": {
     "serve": "node scripts/serve.mjs",
-    "build": "scripts/build.sh",
-    "publish": "scripts/publish.sh"
+    "build": "scripts/build.sh"
   },
   "keywords": [
     "squircle",
