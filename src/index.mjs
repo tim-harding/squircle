@@ -1,4 +1,8 @@
 /**
+ * @typedef {{ x: number, y: number }} Point
+ */
+
+/**
  * Register the squircle CSS Paint worklet.
  *
  * @param {string} workletUrl URL of the squircle paint worklet
@@ -51,6 +55,27 @@ export function register(workletUrl) {
  * @param {number} radius Border radius
  */
 export function paint(ctx, x, y, width, height, radius) {
+  const iterator = points(x, y, width, height, radius);
+  const { x: xInit, y: yInit } = iterator.next().value ?? { x: 0, y: 0 };
+  ctx.beginPath();
+  ctx.moveTo(xInit, yInit);
+  for (const { x, y } of iterator) {
+    ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+}
+
+/**
+ * Iterates the points for a squircle
+ *
+ * @param {number} x Top-left corner x-coordinate
+ * @param {number} y Top-left corner y-coordinate
+ * @param {number} width Rectangle width
+ * @param {number} height Rectangle height
+ * @param {number} radius Border radius
+ * @yields {Point}
+ */
+export function* points(x, y, width, height, radius) {
   const w = Math.max(0, width);
   const h = Math.max(0, height);
   const l = Math.min(w, h) / 2;
@@ -59,8 +84,6 @@ export function paint(ctx, x, y, width, height, radius) {
   const n = r / l;
   const denominator = Math.PI / 2 / segments;
 
-  ctx.beginPath();
-  ctx.moveTo(w + x, h - l + y);
   for (let i = 0; i < 4; i++) {
     const left = i > 0 && i < 3;
     const top = i > 1;
@@ -83,8 +106,7 @@ export function paint(ctx, x, y, width, height, radius) {
       const y0 = Math.sin(t) ** n;
       const x = x0 * m11 + y0 * m12 + offset_x;
       const y = x0 * m21 + y0 * m22 + offset_y;
-      ctx.lineTo(x, y);
+      yield { x, y };
     }
   }
-  ctx.closePath();
 }
