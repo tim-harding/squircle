@@ -78,8 +78,30 @@ export function path(x, y, width, height, radius) {
   const { x: initialX, y: initialY } = iterator.next().value ?? { x: 0, y: 0 };
   let out = `M ${initialX} ${initialY} `;
   for (const { x, y } of iterator) {
-    out += `L ${x} ${y} `;
+    out += `L ${x.toFixed(2)} ${y.toFixed(2)} `;
   }
+  return out;
+}
+
+/**
+ * @param {number} x Top-left corner x-coordinate
+ * @param {number} y Top-left corner y-coordinate
+ * @param {number} width Rectangle width
+ * @param {number} height Rectangle height
+ * @param {number} radius Border radius
+ * @returns {string}
+ */
+export function polygon(x, y, width, height, radius) {
+  let out = "polygon(";
+  const { w, h, l, r } = clampArguments(width, height, radius);
+  const { segments, exponent, indexToParameter } = cornerParameters(r, l);
+  const q0 = cornerPoints(segments, indexToParameter, exponent);
+  for (const { x: x0, y: y0 } of q0) {
+    const x = ((1 - x0) * radius).toFixed(2);
+    const y = ((1 - y0) * radius).toFixed(2);
+    out += `calc(100% - ${x}px) calc(100% - ${y}px), `;
+  }
+  out += "0% 100%, 0% 0%, 100% 0%)";
   return out;
 }
 

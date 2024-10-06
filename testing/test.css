@@ -1,6 +1,8 @@
 body {
   display: grid;
   gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 16rem 16rem;
   background-color: grey;
 }
 
@@ -16,5 +18,8 @@ body {
   --squircle-fill: white;
   --squircle-border-width: 8px;
   --squircle-border-color: black;
-  height: 16rem;
+}
+
+#clipped {
+  background-color: black;
 }
