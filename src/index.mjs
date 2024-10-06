@@ -3,6 +3,9 @@
  *
  * @typedef {{ m11: number, m21: number, m12: number, m22: number}} Matrix2x2 A
  * rotation matrix, indexed by row then column
+ *
+ * @typedef {{ segments: number, indexToParameter: number, exponent: number }}
+ * CornerParameters
  */
 
 /**
@@ -83,9 +86,7 @@ export function* points(x, y, width, height, radius) {
   const h = Math.max(0, height);
   const l = Math.min(w, h) / 2;
   const r = Math.max(0, Math.min(radius, l));
-  const segments = Math.ceil(Math.sqrt(r)) * 4;
-  const exponent = r / l;
-  const indexToParameter = Math.PI / 2 / segments;
+  const { segments, exponent, indexToParameter } = cornerParameters(r, l);
 
   for (let i = 0; i < 4; i++) {
     const { x: sideX, y: sideY } = side(i);
@@ -103,6 +104,18 @@ export function* points(x, y, width, height, radius) {
       yield { x, y };
     }
   }
+}
+
+/**
+ * @param {number} r Corner radius
+ * @param {number} l Half length of shorter side
+ * @returns {CornerParameters}
+ */
+function cornerParameters(r, l) {
+  const segments = Math.ceil(Math.sqrt(r)) * 4;
+  const exponent = r / l;
+  const indexToParameter = Math.PI / 2 / segments;
+  return { segments, exponent, indexToParameter };
 }
 
 /**
