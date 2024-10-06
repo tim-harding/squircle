@@ -1,6 +1,6 @@
 /**
- * @typedef {"top-left" | "bottom-right"} Position
- * @typedef {{ x: number, y: number, position: Position }} CornerEventProps
+ * @typedef {"top-left" | "bottom-right"} Side
+ * @typedef {{ x: number, y: number, side: Side }} CornerEventProps
  * @typedef {CustomEvent<CornerEventProps>} CornerEvent
  *
  * @typedef {{ value: string, aspect: string }} ControlEventProps
@@ -13,9 +13,29 @@ export class Tester extends HTMLElement {
 
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    this._squircle = this.querySelector("th-squircle");
+  }
+}
+
+const SIDE_OFFSET = 32;
+
+export class DragArea extends HTMLElement {
+  _l = SIDE_OFFSET;
+  _r = 0;
+  _t = SIDE_OFFSET;
+  _b = 0;
+  /** @type {HTMLElement?} */
+  _squircle = null;
+
+  constructor() {
+    super();
     const listen = listenPassive.bind(this);
-    listen("th-tester-corner", this._handleCorner);
-    listen("th-tester-control", this._handleControl);
+    listen("th-corner__update", this._handleCornerUpdate);
+    listen("th-corner__register", this._handleCornerRegister);
+    listen("th-control__change", this._handleControlChange);
   }
 
   connectedCallback() {
@@ -23,26 +43,59 @@ export class Tester extends HTMLElement {
   }
 
   /**
+   * @param {CustomEvent} event
+   */
+  _handleCornerRegister(event) {
+    const corner = event.target;
+    if (!(corner instanceof Corner)) {
+      console.warn("Expected a corner element");
+      return;
+    }
+
+    switch (corner._side) {
+      case "top-left": {
+        corner.setAttribute("y", `${this._t}px`);
+        corner.setAttribute("x", `${this._l}px`);
+        break;
+      }
+
+      case "bottom-right": {
+        const { clientWidth: w, clientHeight: h } = this;
+        this._r = w - SIDE_OFFSET;
+        this._b = h - SIDE_OFFSET;
+        corner.setAttribute("y", `${this._b}px`);
+        corner.setAttribute("x", `${this._r}px`);
+        break;
+      }
+
+      default: {
+        console.warn(`Unexpected corner side: ${corner._side}`);
+        break;
+      }
+    }
+  }
+
+  /**
    * @param {CornerEvent} event
    */
-  _handleCorner(event) {
+  _handleCornerUpdate(event) {
     console.log(event);
   }
 
   /**
    * @param {ControlEvent} event
    */
-  _handleControl(event) {
+  _handleControlChange(event) {
     console.log(event);
   }
 }
 
 export class Corner extends HTMLElement {
   _isPressed = false;
-  _position = "";
+  _side = "";
 
   static get observedAttributes() {
-    return ["position"];
+    return ["side", "x", "y"];
   }
 
   constructor() {
@@ -60,8 +113,20 @@ export class Corner extends HTMLElement {
    */
   attributeChangedCallback(name, _, newValue) {
     switch (name) {
-      case "position": {
-        this._position = newValue;
+      case "side": {
+        this._side = newValue;
+        const event = new CustomEvent("th-corner__register", { bubbles: true });
+        this.dispatchEvent(event);
+        break;
+      }
+
+      case "x": {
+        this.style.left = newValue;
+        break;
+      }
+
+      case "y": {
+        this.style.top = newValue;
         break;
       }
     }
@@ -81,8 +146,8 @@ export class Corner extends HTMLElement {
   _handleMouseMove(mouseEvent) {
     if (!this._isPressed) return;
     const { movementX: x, movementY: y } = mouseEvent;
-    const event = new CustomEvent("th-tester-corner", {
-      detail: { x, y, position: this._position },
+    const event = new CustomEvent("th-corner__update", {
+      detail: { x, y, side: this._side },
       bubbles: true,
     });
     this.dispatchEvent(event);
@@ -132,7 +197,7 @@ export class Control extends HTMLElement {
     const target = inputEvent.target;
     if (!(target instanceof HTMLInputElement)) return;
     const value = target.value;
-    const event = new CustomEvent("th-tester-control", {
+    const event = new CustomEvent("th-control__change", {
       detail: { value, aspect: this._aspect },
       bubbles: true,
     });

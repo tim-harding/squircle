@@ -33,33 +33,23 @@
   </head>
 
   <body class="poppins-regular">
-    <th-tester class="tester">
-      <th-tester-corner class="tester__corner"></th-tester-corner>
-      <th-tester-corner class="tester__corner"></th-tester-corner>
-      <th-squircle class="tester__squircle"></th-squircle>
+    <th-tester>
+      <th-drag-area>
+        <th-corner side="top-left"></th-corner>
+        <th-corner side="bottom-right"></th-corner>
+        <th-squircle></th-squircle>
+      </th-drag-area>
 
-      <form class="tester__controls">
-        <th-tester-control class="tester-control">
-          <label class="tester-control__label" for="tester-input-radius"
-            >Radius</label
-          >
-          <input
-            class="tester-control__input"
-            id="tester-input-radius"
-            type="range"
-          />
-        </th-tester-control>
+      <form>
+        <th-control aspect="radius">
+          <label for="tester-input-radius">Radius</label>
+          <input id="tester-input-radius" type="range" />
+        </th-control>
 
-        <th-tester-control class="tester-control">
-          <label class="tester-control__label" for="tester-input-fill"
-            >Fill</label
-          >
-          <input
-            class="tester-control__input"
-            id="tester-input-fill"
-            type="color"
-          />
-        </th-tester-control>
+        <th-control aspect="fill">
+          <label for="tester-input-fill">Fill</label>
+          <input id="tester-input-fill" type="color" />
+        </th-control>
       </form>
     </th-tester>
   </body>

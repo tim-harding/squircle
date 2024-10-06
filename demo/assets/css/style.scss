@@ -28,27 +28,30 @@ body {
   align-items: stretch;
 }
 
-.th-squircle {
+th-squircle {
   contain: strict;
 }
 
-.tester {
+th-tester {
+  background-color: lightgray;
+  display: grid;
+  grid-template-rows: 1fr min-content;
+  grid-template-areas: "drag-area" "controls";
 }
 
-.tester__squircle {
+th-drag-area {
+  position: relative;
+  grid-area: "drag-area";
+  background-color: gray;
 }
 
-.tester__controls {
-}
-
-.tester-corner {
-}
-
-.tester-control {
-}
-
-.tester-control__label {
-}
-
-.tester-control__input {
+th-corner {
+  position: absolute;
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: blue;
+  opacity: 20%;
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }

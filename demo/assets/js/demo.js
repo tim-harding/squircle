@@ -1,4 +1,4 @@
-import { Tester, Corner, Control } from "./tester.js";
+import { Tester, Corner, Control, DragArea } from "./tester.js";
 
 const IS_PAINT_SUPPORTED = CSS.supports("background", "paint(id)");
 
@@ -6,8 +6,9 @@ function main() {
   loadSquircleComponent();
   loadPaintWorklet();
   customElements.define("th-tester", Tester);
-  customElements.define("th-tester-corner", Corner);
-  customElements.define("th-tester-control", Control);
+  customElements.define("th-drag-area", DragArea);
+  customElements.define("th-corner", Corner);
+  customElements.define("th-control", Control);
 }
 
 async function loadPaintWorklet() {
