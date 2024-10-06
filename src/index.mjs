@@ -91,7 +91,7 @@ export function* points(x, y, width, height, radius) {
     const { x: sideX, y: sideY } = side(i);
     const offsetX = offset1D(sideX, x, w, l);
     const offsetY = offset1D(sideY, y, h, l);
-    let { m11, m21, m12, m22 } = rotateScale(i, l);
+    let { m11, m21, m12, m22 } = rotateScale(sideX, sideY, l);
 
     for (const { x: x0, y: y0 } of cornerPoints(
       segments,
@@ -135,12 +135,13 @@ function side(i) {
 /**
  * Creates a matrix to rotate and scale corner points
  *
- * @param {number} i Quadrant index
+ * @param {number} x x-axis side
+ * @param {number} y y-axis side
  * @param {number} l Scale factor
  * @returns {Matrix2x2}
  */
-function rotateScale(i, l) {
-  const rotation = rotate(i);
+function rotateScale(x, y, l) {
+  const rotation = rotate(x, y);
   rotation.m11 *= l;
   rotation.m21 *= l;
   rotation.m12 *= l;
@@ -151,12 +152,12 @@ function rotateScale(i, l) {
 /**
  * Creates a matrix to rotate corner
  *
- * @param {number} i Quadrant index
+ * @param {number} x x-axis side
+ * @param {number} y y-axis side
  * @returns {Matrix2x2}
  */
-function rotate(i) {
-  const { x, y } = side(i);
-  const odd = i % 2;
+function rotate(x, y) {
+  const odd = x ^ y;
   const even = 1 - odd;
   const rotateX = x * 2 - 1;
   const rotateY = y * 2 - 1;
