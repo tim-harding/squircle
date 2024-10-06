@@ -110,17 +110,20 @@ export class DragArea extends HTMLElement {
   }
 
   _updateSquircleCorners() {
-    const x = this._l;
-    const y = this._t;
-    const w = this._r - x;
-    const h = this._b - y;
+    const { _l: l, _r: r, _t: t, _b: b } = this;
+    const xMin = Math.min(l, r);
+    const xMax = Math.max(l, r);
+    const yMin = Math.min(t, b);
+    const yMax = Math.max(t, b);
+    const width = xMax - xMin;
+    const height = yMax - yMin;
 
     const squircle = this._squircle;
     if (squircle === null) return;
-    squircle.style.left = `${x}px`;
-    squircle.style.top = `${y}px`;
-    squircle.style.width = `${w}px`;
-    squircle.style.height = `${h}px`;
+    squircle.style.left = `${xMin}px`;
+    squircle.style.top = `${yMin}px`;
+    squircle.style.width = `${width}px`;
+    squircle.style.height = `${height}px`;
   }
 
   /**

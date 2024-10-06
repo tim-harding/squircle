@@ -61,7 +61,7 @@ export default class SquircleCanvas extends HTMLElement {
         canvas.width = Math.round(this._width);
         canvas.height = Math.round(this._height);
         ctx.scale(devicePixelRatio, devicePixelRatio);
-        draw(ctx, this._width, this._height);
+        draw(ctx, this._width, this._height, this._radius);
       }
     });
     observer.observe(this);
@@ -110,7 +110,7 @@ export default class SquircleCanvas extends HTMLElement {
 
     this._animationFrame = requestAnimationFrame(() => {
       this._animationFrame = -1;
-      draw(context, this._width, this._height);
+      draw(context, this._width, this._height, this._radius);
     });
   }
 }
@@ -119,9 +119,12 @@ export default class SquircleCanvas extends HTMLElement {
  * @param {CanvasRenderingContext2D} ctx
  * @param {number} width
  * @param {number} height
+ * @param {number} radius
  */
-function draw(ctx, width, height) {
+function draw(ctx, width, height, radius) {
   ctx.reset();
   ctx.fillStyle = "black";
-  paint(ctx, 0, 0, width, height, 10);
+  const l = Math.min(width, height) / 2;
+  const r = Math.min(l, radius);
+  paint(ctx, 0, 0, width, height, r);
 }
