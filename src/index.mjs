@@ -1,13 +1,26 @@
 /**
- * @typedef {{ x: number, y: number }} Point
+ * @typedef {Object} Point
+ * @property {number} x x-coordinate
+ * @property {number} y y-coordinate
  *
- * @typedef {{ m11: number, m21: number, m12: number, m22: number}} Matrix2x2 A
- * rotation matrix, indexed by row then column
+ * @typedef {Object} Matrix2x2 A rotation matrix, indexed by row then column
+ * @property {number} m11
+ * @property {number} m21
+ * @property {number} m12
+ * @property {number} m22
  *
- * @typedef {{ segments: number, indexToParameter: number, exponent: number }}
- * CornerParameters
+ * @typedef {Object} CornerArguments
+ * @property {number} segments Number of line segments
+ * @property {number} indexToParameter Scalar to convert from an index in
+ * 0..segments+1 to a parameter in 0..pi/2 for the parametric superellipse
+ * equation
+ * @property {number} exponent Exponent for the parametric superellipse equation
  *
  * @typedef {{ w: number, h: number, l: number, r: number}} ClampedArguments
+ * @property {number} w Rectangle width
+ * @property {number} h Rectangle height
+ * @property {number} l Half length of the shorter rectangle side
+ * @property {radius} r Corner radius
  */
 
 /**
@@ -122,7 +135,7 @@ function clampArguments(width, height, radius) {
 /**
  * @param {number} r Corner radius
  * @param {number} l Half length of shorter side
- * @returns {CornerParameters}
+ * @returns {CornerArguments}
  */
 function cornerParameters(r, l) {
   const segments = Math.ceil(Math.sqrt(r)) * 4;
