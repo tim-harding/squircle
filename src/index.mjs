@@ -60,33 +60,31 @@ export function paint(ctx, x, y, width, height, radius) {
   const denominator = Math.PI / 2 / segments;
 
   ctx.beginPath();
-  ctx.resetTransform();
   ctx.moveTo(w + x, h - l + y);
   for (let i = 0; i < 4; i++) {
     const left = i > 0 && i < 3;
     const top = i > 1;
-    const offset_x = left ? l : w - l;
-    const offset_y = top ? l : h - l;
+    const offset_x = (left ? l : w - l) + x;
+    const offset_y = (top ? l : h - l) + y;
     const odd = i % 2;
     const even = 1 - odd;
     const rotate_sign_y = left ? -1 : 1;
     const rotate_sign_x = top ? -1 : 1;
-    const rotate_x = rotate_sign_x * l;
-    const rotate_y = rotate_sign_y * l;
-    const m11 = rotate_x * even;
-    const m21 = rotate_x * odd;
-    const m12 = rotate_y * odd;
-    const m22 = rotate_y * even;
+    const rotate_y = rotate_sign_x * l;
+    const rotate_x = rotate_sign_y * l;
+    const m11 = rotate_y * even;
+    const m21 = rotate_y * odd;
+    const m12 = rotate_x * odd;
+    const m22 = rotate_x * even;
 
-    ctx.setTransform(m11, m21, m12, m22, offset_x + x, offset_y + y);
     for (let j = 0; j < segments + 1; j++) {
       const t = j * denominator;
-      const x = Math.cos(t) ** n;
-      const y = Math.sin(t) ** n;
+      const x0 = Math.cos(t) ** n;
+      const y0 = Math.sin(t) ** n;
+      const x = x0 * m11 + y0 * m12 + offset_x;
+      const y = x0 * m21 + y0 * m22 + offset_y;
       ctx.lineTo(x, y);
     }
   }
-
   ctx.closePath();
-  ctx.fill();
 }

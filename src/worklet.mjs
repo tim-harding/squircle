@@ -38,13 +38,13 @@ class Squircle {
 
     const isBorderVisible = borderWidth !== 0 && borderColor !== "transparent";
     if (isBorderVisible) {
-      ctx.fillStyle = borderColor;
       paint(ctx, 0, 0, width, height, radius);
+      ctx.fillStyle = borderColor;
+      ctx.fill();
     }
 
     const isFillVisible = fill !== "transparent";
     if (isFillVisible) {
-      ctx.fillStyle = fill;
       paint(
         ctx,
         borderWidth,
@@ -53,6 +53,8 @@ class Squircle {
         height - borderWidth * 2,
         radius - borderWidth / Math.SQRT2,
       );
+      ctx.fillStyle = fill;
+      ctx.fill();
     }
   }
 }
