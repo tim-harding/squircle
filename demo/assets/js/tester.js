@@ -256,7 +256,10 @@ export class Control extends HTMLElement {
   _emitChange(input) {
     const value = input.value;
     const event = new CustomEvent("th-control__change", {
-      detail: { value, aspect: this._aspect },
+      detail: {
+        value: input.type === "range" ? `${value}px` : value,
+        aspect: this._aspect,
+      },
       bubbles: true,
     });
     this.dispatchEvent(event);
