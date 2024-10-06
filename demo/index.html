@@ -12,12 +12,24 @@
       async
     ></script>
     <link
+      href="{{ '/assets/js/squircle-canvas.js' | relative_url }}"
+      rel="modulepreload"
+    />
+    <link
+      href="{{ '/assets/js/squircle-houdini.js' | relative_url }}"
+      rel="modulepreload"
+    />
+    <link
+      href="https://unpkg.com/superellipse-squircle@0.1.6/worklet.min.js"
+      rel="modulepreload"
+    />
+    <link
       href="https://unpkg.com/superellipse-squircle@0.1.6/index.css"
       rel="stylesheet"
     />
     <link
-      rel="stylesheet"
       href="{{ '/assets/css/style.css' | relative_url }}"
+      rel="stylesheet"
     />
     <title>Squircle Demo</title>
   </head>
