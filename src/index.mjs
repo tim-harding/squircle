@@ -89,8 +89,8 @@ export function* points(x, y, width, height, radius) {
 
   for (let i = 0; i < 4; i++) {
     const { x: sideX, y: sideY } = side(i);
-    const offsetX = offset1D(sideX, x, w, l);
-    const offsetY = offset1D(sideY, y, h, l);
+    const m13 = translate1D(sideX, x, w, l);
+    const m23 = translate1D(sideY, y, h, l);
     let { m11, m21, m12, m22 } = rotateScale(sideX, sideY, l);
 
     for (const { x: x0, y: y0 } of cornerPoints(
@@ -98,8 +98,8 @@ export function* points(x, y, width, height, radius) {
       indexToParameter,
       exponent,
     )) {
-      const x = x0 * m11 + y0 * m12 + offsetX;
-      const y = x0 * m21 + y0 * m22 + offsetY;
+      const x = x0 * m11 + y0 * m12 + m13;
+      const y = x0 * m21 + y0 * m22 + m23;
       yield { x, y };
     }
   }
@@ -114,7 +114,7 @@ export function* points(x, y, width, height, radius) {
  * @param {number} l Half length of the shorter side
  * @returns {number}
  */
-function offset1D(side, x, w, l) {
+function translate1D(side, x, w, l) {
   return w * side + l * (1 - side * 2) + x;
 }
 
