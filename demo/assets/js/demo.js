@@ -11,7 +11,21 @@ function main() {
 }
 
 class Squircle extends HTMLElement {
-  static observedAttributes = [];
+  /** @type {number} */
+  _radius = 0;
+  /** @type {string} */
+  _fill = "transparent";
+  /** @type {number} */
+  _borderWidth = 0;
+  /** @type {string} */
+  _borderColor = "transparent";
+
+  static observedAttributes = [
+    "radius",
+    "fill",
+    "border-width",
+    "border-color",
+  ];
 
   constructor() {
     super();
@@ -35,34 +49,95 @@ class Squircle extends HTMLElement {
         return;
       }
 
-      let width = 0;
-      let height = 0;
+      this._context = ctx;
+      this._width = 0;
+      this._height = 0;
 
       const observer = new ResizeObserver((entries) => {
         for (const entry of entries) {
           const sizes = entry.borderBoxSize ?? entry.contentBoxSize;
           if (sizes) {
             const [{ inlineSize, blockSize }] = sizes;
-            width = inlineSize;
-            height = blockSize;
+            this._width = inlineSize;
+            this._height = blockSize;
           } else {
             const rect = entry.contentRect;
-            width = rect.width;
-            height = rect.height;
+            this._width = rect.width;
+            this._height = rect.height;
           }
-          width = Math.round(width);
-          height = Math.round(height);
-          canvas.width = Math.round(width);
-          canvas.height = Math.round(height);
+          this._width = Math.round(this._width);
+          this._height = Math.round(this._height);
+          canvas.width = Math.round(this._width);
+          canvas.height = Math.round(this._height);
           ctx.scale(devicePixelRatio, devicePixelRatio);
-          draw(ctx, width, height);
+          draw(ctx, this._width, this._height);
         }
       });
       observer.observe(this);
     }
   }
 
-  //attributeChangedCallback(name, oldValue, newValue) {}
+  /**
+   * @param {string} name
+   * @param {string} _
+   * @param {string} newValue
+   */
+  attributeChangedCallback(name, _, newValue) {
+    switch (name) {
+      case "radius": {
+        if (IS_PAINT_SUPPORTED) {
+          this.style.setProperty("--squircle-radius", newValue);
+        } else {
+          this._radius = Number.parseFloat(newValue);
+        }
+        break;
+      }
+
+      case "fill": {
+        if (IS_PAINT_SUPPORTED) {
+          this.style.setProperty("--squircle-fill", newValue);
+        } else {
+          this._fill = newValue;
+        }
+        break;
+      }
+
+      case "border-width": {
+        if (IS_PAINT_SUPPORTED) {
+          this.style.setProperty("--squircle-border-width", newValue);
+        } else {
+          this._borderWidth = Number.parseFloat(newValue);
+        }
+        break;
+      }
+
+      case "border-color": {
+        if (IS_PAINT_SUPPORTED) {
+          this.style.setProperty("--squircle-border-color", newValue);
+        } else {
+          this._borderColor = Number.parseFloat(newValue);
+        }
+        break;
+      }
+
+      default: {
+        console.warn(`Unknown attribute ${name}`);
+        return;
+      }
+    }
+
+    if (!IS_PAINT_SUPPORTED) {
+      this._scheduleRedraw();
+    }
+  }
+
+  _scheduleRedraw() {
+    if (this._animationFrame) return;
+    this._animationFrame = requestAnimationFrame(() => {
+      this._animationFrame = null;
+      draw(this._context, this._width, this._height);
+    });
+  }
 }
 
 /**
