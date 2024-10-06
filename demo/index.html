@@ -6,23 +6,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <script
       src="{{ '/assets/js/demo.js' | relative_url }}"
       type="module"
       async
     ></script>
-    <link
-      href="{{ '/assets/js/squircle-canvas.js' | relative_url }}"
-      rel="modulepreload"
-    />
-    <link
-      href="{{ '/assets/js/squircle-houdini.js' | relative_url }}"
-      rel="modulepreload"
-    />
-    <link
-      href="https://unpkg.com/superellipse-squircle@0.1.6/worklet.min.js"
-      rel="modulepreload"
-    />
+
     <link
       href="https://unpkg.com/superellipse-squircle@0.1.6/index.css"
       rel="stylesheet"
@@ -31,11 +21,46 @@
       href="{{ '/assets/css/style.css' | relative_url }}"
       rel="stylesheet"
     />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
     <title>Squircle Demo</title>
   </head>
 
-  <body>
-    <th-squircle></th-squircle>
-    <th-squircle></th-squircle>
+  <body class="poppins-regular">
+    <th-tester class="tester">
+      <th-tester-corner class="tester__corner"></th-tester-corner>
+      <th-tester-corner class="tester__corner"></th-tester-corner>
+      <th-squircle class="tester__squircle"></th-squircle>
+
+      <form class="tester__controls">
+        <th-tester-control class="tester-control">
+          <label class="tester-control__label" for="tester-input-radius"
+            >Radius</label
+          >
+          <input
+            class="tester-control__input"
+            id="tester-input-radius"
+            type="range"
+          />
+        </th-tester-control>
+
+        <th-tester-control class="tester-control">
+          <label class="tester-control__label" for="tester-input-fill"
+            >Fill</label
+          >
+          <input
+            class="tester-control__input"
+            id="tester-input-fill"
+            type="color"
+          />
+        </th-tester-control>
+      </form>
+    </th-tester>
   </body>
 </html>

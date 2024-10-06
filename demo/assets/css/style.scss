@@ -9,6 +9,12 @@
   box-sizing: border-box;
 }
 
+:root {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 body {
   display: grid;
   grid-auto-columns: 1fr;
@@ -24,4 +30,25 @@ body {
 
 .th-squircle {
   contain: strict;
+}
+
+.tester {
+}
+
+.tester__squircle {
+}
+
+.tester__controls {
+}
+
+.tester-corner {
+}
+
+.tester-control {
+}
+
+.tester-control__label {
+}
+
+.tester-control__input {
 }

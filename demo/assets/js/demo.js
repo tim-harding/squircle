@@ -1,8 +1,13 @@
+import { Tester, Corner, Control } from "./tester.js";
+
 const IS_PAINT_SUPPORTED = CSS.supports("background", "paint(id)");
 
 function main() {
   loadSquircleComponent();
   loadPaintWorklet();
+  customElements.define("th-tester", Tester);
+  customElements.define("th-tester-corner", Corner);
+  customElements.define("th-tester-control", Control);
 }
 
 async function loadPaintWorklet() {
