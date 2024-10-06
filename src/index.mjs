@@ -66,6 +66,24 @@ export function register(workletUrl) {
 }
 
 /**
+ * @param {number} x Top-left corner x-coordinate
+ * @param {number} y Top-left corner y-coordinate
+ * @param {number} width Rectangle width
+ * @param {number} height Rectangle height
+ * @param {number} radius Border radius
+ * @returns {string}
+ */
+export function path(x, y, width, height, radius) {
+  const iterator = points(x, y, width, height, radius);
+  const { x: initialX, y: initialY } = iterator.next().value ?? { x: 0, y: 0 };
+  let out = `M ${initialX} ${initialY} `;
+  for (const { x, y } of iterator) {
+    out += `L ${x} ${y} `;
+  }
+  return out;
+}
+
+/**
  * Draws a squircle to the canvas.
  *
  * @param {CanvasRenderingContext2D} ctx
@@ -77,9 +95,9 @@ export function register(workletUrl) {
  */
 export function paint(ctx, x, y, width, height, radius) {
   const iterator = points(x, y, width, height, radius);
-  const { x: xInit, y: yInit } = iterator.next().value ?? { x: 0, y: 0 };
+  const { x: initialX, y: initialY } = iterator.next().value ?? { x: 0, y: 0 };
   ctx.beginPath();
-  ctx.moveTo(xInit, yInit);
+  ctx.moveTo(initialX, initialY);
   for (const { x, y } of iterator) {
     ctx.lineTo(x, y);
   }
