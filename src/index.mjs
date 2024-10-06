@@ -98,13 +98,37 @@ export function* points(x, y, width, height, radius) {
     const m12 = rotateX * odd;
     const m22 = rotateX * even;
 
-    for (let j = 0; j < segments + 1; j++) {
-      const t = j * indexToParameter;
-      const x0 = Math.cos(t) ** exponent;
-      const y0 = Math.sin(t) ** exponent;
+    for (const { x: x0, y: y0 } of cornerPoints(
+      segments,
+      indexToParameter,
+      exponent,
+    )) {
       const x = x0 * m11 + y0 * m12 + offsetX;
       const y = x0 * m21 + y0 * m22 + offsetY;
       yield { x, y };
     }
   }
+}
+
+/**
+ * Iterates the points for a single squircle corner. Points are bounded by the
+ * the first quartile unit square and are generated from (1,0) to (0,1).
+ *
+ * @param {number} segments Number of line segments
+ * @param {number} indexToParameter Scalar to convert from the loop index in
+ * 0..segments+1 to a parameter in 0..pi/2 for the parametric superellipse
+ * formula
+ * @param {number} exponent Power to raise circle coordinates to in the
+ * parametric superellipse formula
+ * @yields {Point}
+ */
+export function* cornerPoints(segments, indexToParameter, exponent) {
+  yield { x: 1, y: 0 };
+  for (let i = 1; i < segments; i++) {
+    const t = i * indexToParameter;
+    const x = Math.cos(t) ** exponent;
+    const y = Math.sin(t) ** exponent;
+    yield { x, y };
+  }
+  yield { x: 0, y: 1 };
 }
