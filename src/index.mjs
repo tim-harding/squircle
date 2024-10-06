@@ -81,31 +81,29 @@ export function* points(x, y, width, height, radius) {
   const l = Math.min(w, h) / 2;
   const r = Math.max(0, Math.min(radius, l));
   const segments = Math.ceil(Math.sqrt(r)) * 4;
-  const n = r / l;
-  const denominator = Math.PI / 2 / segments;
+  const exponent = r / l;
+  const indexToParameter = Math.PI / 2 / segments;
 
   for (let i = 0; i < 4; i++) {
     const left = i > 0 && i < 3;
     const top = i > 1;
-    const offset_x = (left ? l : w - l) + x;
-    const offset_y = (top ? l : h - l) + y;
+    const offsetX = (left ? l : w - l) + x;
+    const offsetY = (top ? l : h - l) + y;
+    const rotateX = l * (left ? -1 : 1);
+    const rotateY = l * (top ? -1 : 1);
     const odd = i % 2;
     const even = 1 - odd;
-    const rotate_sign_y = left ? -1 : 1;
-    const rotate_sign_x = top ? -1 : 1;
-    const rotate_y = rotate_sign_x * l;
-    const rotate_x = rotate_sign_y * l;
-    const m11 = rotate_y * even;
-    const m21 = rotate_y * odd;
-    const m12 = rotate_x * odd;
-    const m22 = rotate_x * even;
+    const m11 = rotateY * even;
+    const m21 = rotateY * odd;
+    const m12 = rotateX * odd;
+    const m22 = rotateX * even;
 
     for (let j = 0; j < segments + 1; j++) {
-      const t = j * denominator;
-      const x0 = Math.cos(t) ** n;
-      const y0 = Math.sin(t) ** n;
-      const x = x0 * m11 + y0 * m12 + offset_x;
-      const y = x0 * m21 + y0 * m22 + offset_y;
+      const t = j * indexToParameter;
+      const x0 = Math.cos(t) ** exponent;
+      const y0 = Math.sin(t) ** exponent;
+      const x = x0 * m11 + y0 * m12 + offsetX;
+      const y = x0 * m21 + y0 * m22 + offsetY;
       yield { x, y };
     }
   }
