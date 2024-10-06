@@ -1,5 +1,8 @@
 /**
  * @typedef {{ x: number, y: number }} Point
+ *
+ * @typedef {{ m11: number, m21: number, m12: number, m22: number}} Matrix2x2 A
+ * rotation matrix, indexed by row then column
  */
 
 /**
@@ -85,18 +88,14 @@ export function* points(x, y, width, height, radius) {
   const indexToParameter = Math.PI / 2 / segments;
 
   for (let i = 0; i < 4; i++) {
-    const left = i > 0 && i < 3;
-    const top = i > 1;
-    const offsetX = (left ? l : w - l) + x;
-    const offsetY = (top ? l : h - l) + y;
-    const rotateX = l * (left ? -1 : 1);
-    const rotateY = l * (top ? -1 : 1);
-    const odd = i % 2;
-    const even = 1 - odd;
-    const m11 = rotateY * even;
-    const m21 = rotateY * odd;
-    const m12 = rotateX * odd;
-    const m22 = rotateX * even;
+    const { x: sideX, y: sideY } = side(i);
+    const offsetX = w * sideX + l * (1 - sideX * 2) + x;
+    const offsetY = h * sideY + l * (1 - sideY * 2) + y;
+    let { m11, m21, m12, m22 } = rotate(i);
+    m11 *= l;
+    m21 *= l;
+    m12 *= l;
+    m22 *= l;
 
     for (const { x: x0, y: y0 } of cornerPoints(
       segments,
@@ -111,8 +110,41 @@ export function* points(x, y, width, height, radius) {
 }
 
 /**
+ * Calculates which side of the graph the given corner is on
+ *
+ * @param {number} i Quadrant index
+ * @return {Point} x=0 => right, x=1 => left, y=0 => top, y=1 => bottom
+ */
+function side(i) {
+  const right = i === 0 || i === 3;
+  const top = i < 2;
+  const x = right ? 0 : 1;
+  const y = top ? 0 : 1;
+  return { x, y };
+}
+
+/**
+ * Creates a rotation matrix for the given corner
+ *
+ * @param {number} i Quadrant index
+ * @returns {Matrix2x2}
+ */
+function rotate(i) {
+  const { x, y } = side(i);
+  const odd = i % 2;
+  const even = 1 - odd;
+  const rotateX = x * 2 - 1;
+  const rotateY = y * 2 - 1;
+  const m11 = rotateY * even;
+  const m21 = rotateY * odd;
+  const m12 = rotateX * odd;
+  const m22 = rotateX * even;
+  return { m11, m21, m12, m22 };
+}
+
+/**
  * Iterates the points for a single squircle corner. Points are bounded by the
- * the first quartile unit square and are generated from (1,0) to (0,1).
+ * the first quadrant unit square and are generated from (1,0) to (0,1).
  *
  * @param {number} segments Number of line segments
  * @param {number} indexToParameter Scalar to convert from the loop index in
