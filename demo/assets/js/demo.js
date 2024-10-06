@@ -1,21 +1,24 @@
+const IS_PAINT_SUPPORTED = CSS.supports("background", "paint(id)");
+
 function main() {
-  const isPaintSupported = CSS.supports("background", "paint(id)");
-  if (isPaintSupported) {
-    import("https://unpkg.com/superellipse-squircle@0.1.6/index.mjs").then(
-      ({ register }) => {
-        register(
-          "https://unpkg.com/superellipse-squircle@0.1.6/worklet.min.js",
-        );
-      },
-    );
-    import("./squircle-houdini.js").then(({ default: SquircleHoudini }) => {
-      customElements.define("th-squircle", SquircleHoudini);
-    });
-  } else {
-    import("./squircle-canvas.js").then(({ default: SquircleCanvas }) => {
-      customElements.define("th-squircle", SquircleCanvas);
-    });
-  }
+  loadSquircleComponent();
+  loadPaintWorklet();
+}
+
+async function loadPaintWorklet() {
+  if (!IS_PAINT_SUPPORTED) return;
+  const { register } = await import(
+    "https://unpkg.com/superellipse-squircle@0.1.6/index.mjs"
+  );
+  register("https://unpkg.com/superellipse-squircle@0.1.6/worklet.min.js");
+}
+
+async function loadSquircleComponent() {
+  const promise = IS_PAINT_SUPPORTED
+    ? import("./squircle-houdini.js")
+    : import("./squircle-canvas.js");
+  const module = await promise;
+  customElements.define("th-squircle", module.default);
 }
 
 main();
