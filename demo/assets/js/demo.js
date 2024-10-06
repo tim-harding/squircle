@@ -1,76 +1,80 @@
-import { register } from "https://unpkg.com/superellipse-squircle@0.1.6/index.mjs";
+import {
+  register,
+  paint,
+} from "https://unpkg.com/superellipse-squircle@0.1.6/index.mjs";
+
+const IS_PAINT_SUPPORTED = CSS.supports("background", "paint(id)");
 
 function main() {
   register("https://unpkg.com/superellipse-squircle@0.1.6/worklet.min.js");
-
-  const canvas = document.getElementById("squircle-canvas");
-  if (!(canvas instanceof HTMLCanvasElement)) {
-    console.error("Missing canvas");
-    return;
-  }
-
-  const ctx = canvas.getContext("2d", {
-    colorSpace: "display-p3",
-    alpha: false,
-  });
-  if (ctx === null) {
-    console.error("Could not get canvas 2D context");
-    return;
-  }
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-
-  const observer = new ResizeObserver((entries) => {
-    for (const entry of entries) {
-      const [w, h] = entrySize(entry);
-      canvas.width = Math.round(w);
-      canvas.height = Math.round(h);
-      draw(ctx, 0);
-    }
-  });
-  observer.observe(canvas);
-
-  let lastUpdate = Date.now();
-  function updateAndDraw() {
-    const now = Date.now();
-    const dt = now - lastUpdate;
-    lastUpdate = now;
-    draw(ctx, dt);
-  }
-
-  function drawLoop() {
-    updateAndDraw();
-    requestAnimationFrame(drawLoop);
-  }
-
-  drawLoop();
+  customElements.define("th-squircle", Squircle);
 }
 
-/**
- * @param {ResizeObserverEntry} entry
- */
-function entrySize(entry) {
-  if (entry.borderBoxSize) {
-    const [{ inlineSize: w, blockSize: h }] = entry.borderBoxSize;
-    return [w, h];
-  } else if (entry.contentBoxSize) {
-    const [{ inlineSize: w, blockSize: h }] = entry.contentBoxSize;
-    return [w, h];
-  } else {
-    const { width: w, height: h } = entry.contentRect;
-    return [w, h];
+class Squircle extends HTMLElement {
+  static observedAttributes = [];
+
+  constructor() {
+    super();
   }
+
+  connectedCallback() {
+    this.classList.add("th-squircle");
+
+    if (IS_PAINT_SUPPORTED) {
+      this.classList.add("squircle");
+    } else {
+      const canvas = document.createElement("canvas");
+      this.appendChild(canvas);
+
+      const ctx = canvas.getContext("2d", {
+        colorSpace: "display-p3",
+      });
+
+      if (ctx === null) {
+        console.error("Could not get canvas 2D context");
+        return;
+      }
+
+      let width = 0;
+      let height = 0;
+
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const sizes = entry.borderBoxSize ?? entry.contentBoxSize;
+          if (sizes) {
+            const [{ inlineSize, blockSize }] = sizes;
+            width = inlineSize;
+            height = blockSize;
+          } else {
+            const rect = entry.contentRect;
+            width = rect.width;
+            height = rect.height;
+          }
+          width = Math.round(width);
+          height = Math.round(height);
+          canvas.width = Math.round(width);
+          canvas.height = Math.round(height);
+          ctx.scale(devicePixelRatio, devicePixelRatio);
+          draw(ctx, width, height);
+        }
+      });
+      observer.observe(this);
+    }
+  }
+
+  //attributeChangedCallback(name, oldValue, newValue) {}
 }
 
 /**
  * @param {CanvasRenderingContext2D} ctx
  * @param {number} dt Delta time in milliseconds
+ * @param {number} width
+ * @param {number} height
  */
-function draw(ctx, dt) {
+function draw(ctx, width, height) {
   ctx.reset();
-  ctx.fillStyle = "white";
-  ctx.ellipse(100, 100, 24, 24, 0, 0, 2 * Math.PI);
-  ctx.fill();
+  ctx.fillStyle = "black";
+  paint(ctx, 0, 0, width, height, 10);
 }
 
 main();
