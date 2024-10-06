@@ -13,6 +13,68 @@
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
+
+  /*********************************** 
+   * Colors reference:               *
+   * https://www.radix-ui.com/colors *
+   ***********************************/
+
+  /***************
+   * Backgrounds *
+   ***************/
+  /* 11-12 text  */
+  --slate-1: #111113;
+  /* 11-12 text  */
+  --slate-2: #18191b;
+
+  /**************************
+   * Interactive components *
+   **************************/
+  /* 11 labels, 12 text */
+  --slate-3: #212225;
+  /* 11-12 labels */
+  --slate-4: #272a2d;
+  /* 12 labels */
+  --slate-5: #2e3135;
+
+  /**************************
+   * Borders and separators *
+   **************************/
+  /* 1-5 backgrounds */
+  --slate-6: #363a3f;
+  /* 1-5 backgrounds */
+  --slate-7: #43484e;
+  /* 1-5 backgrounds */
+  --slate-8: #5a6169;
+
+  /****************
+   * Solid colors *
+   ****************/
+  /* White text */
+  --slate-9: #696e77;
+  /* White text */
+  --slate-10: #777b84;
+
+  /*******************
+   * Accessible text *
+   *******************/
+  /* Background colors */
+  --slate-11: #b0b4ba;
+  /* Background colors */
+  --slate-12: #edeef0;
+
+  --violet-1: #14121f;
+  --violet-2: #1b1525;
+  --violet-3: #291f43;
+  --violet-4: #33255b;
+  --violet-5: #3c2e69;
+  --violet-6: #473876;
+  --violet-7: #56468b;
+  --violet-8: #6958ad;
+  --violet-9: #6e56cf;
+  --violet-10: #7d66d9;
+  --violet-11: #baa7ff;
+  --violet-12: #e2ddfe;
 }
 
 body {
@@ -34,16 +96,24 @@ th-squircle {
 }
 
 th-tester {
-  background-color: lightgray;
   display: grid;
   grid-template-rows: 1fr min-content;
   grid-template-areas: "drag-area" "controls";
+
+  & > form {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content 1fr;
+    column-gap: 2rem;
+    row-gap: 1rem;
+    grid-auto-rows: max-content;
+    padding-top: 1rem;
+  }
 }
 
 th-drag-area {
   position: relative;
   grid-area: "drag-area";
-  background-color: gray;
+  border: 2px solid lightgray;
 
   & > th-squircle {
     position: absolute;
@@ -59,4 +129,11 @@ th-corner {
   opacity: 20%;
   border-radius: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+
+th-control {
+  display: grid;
+  grid-column-end: span 2;
+  grid-template-columns: subgrid;
+  align-items: center;
 }

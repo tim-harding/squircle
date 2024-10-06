@@ -43,12 +43,34 @@
       <form>
         <th-control aspect="radius">
           <label for="tester-input-radius">Radius</label>
-          <input id="tester-input-radius" type="range" />
+          <input
+            id="tester-input-radius"
+            type="range"
+            min="0"
+            max="64"
+            value="16"
+          />
         </th-control>
 
         <th-control aspect="fill">
           <label for="tester-input-fill">Fill</label>
-          <input id="tester-input-fill" type="color" />
+          <input id="tester-input-fill" type="color" value="#0090FF" />
+        </th-control>
+
+        <th-control aspect="border-width">
+          <label for="tester-input-border-radius">Border width</label>
+          <input
+            id="tester-input-border-radius"
+            type="range"
+            min="0"
+            max="64"
+            value="4"
+          />
+        </th-control>
+
+        <th-control aspect="border-color">
+          <label for="tester-input-border-color">Border color</label>
+          <input id="tester-input-border-color" type="color" value="#205D9E" />
         </th-control>
       </form>
     </th-tester>

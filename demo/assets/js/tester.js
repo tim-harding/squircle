@@ -13,10 +13,22 @@ export class Tester extends HTMLElement {
 
   constructor() {
     super();
+    const listen = listenPassive.bind(this, this);
+    listen("th-control__change", this._handleControlChange);
   }
 
   connectedCallback() {
     this._squircle = this.querySelector("th-squircle");
+  }
+
+  /**
+   * @param {ControlEvent} event
+   */
+  _handleControlChange(event) {
+    const squircle = this._squircle;
+    if (squircle === null) return;
+    const { aspect, value } = event.detail;
+    squircle.setAttribute(aspect, value);
   }
 }
 
@@ -37,7 +49,6 @@ export class DragArea extends HTMLElement {
     const listen = listenPassive.bind(this, this);
     listen("th-corner__update", this._handleCornerUpdate);
     listen("th-corner__register", this._handleCornerRegister);
-    listen("th-control__change", this._handleControlChange);
   }
 
   connectedCallback() {
@@ -125,13 +136,6 @@ export class DragArea extends HTMLElement {
     squircle.style.width = `${width}px`;
     squircle.style.height = `${height}px`;
   }
-
-  /**
-   * @param {ControlEvent} event
-   */
-  _handleControlChange(event) {
-    console.log(event);
-  }
 }
 
 export class Corner extends HTMLElement {
@@ -217,8 +221,10 @@ export class Control extends HTMLElement {
       return;
     }
 
-    const listen = listenPassive.bind(this, this);
-    listen("change", this._handleChange);
+    const listen = listenPassive.bind(this, input);
+    listen("input", this._handleChange);
+
+    this._emitChange(input);
   }
 
   /**
@@ -236,12 +242,19 @@ export class Control extends HTMLElement {
   }
 
   /**
-   * @param {InputEvent} inputEvent
+   * @param {InputEvent} event
    */
-  _handleChange(inputEvent) {
-    const target = inputEvent.target;
-    if (!(target instanceof HTMLInputElement)) return;
-    const value = target.value;
+  _handleChange(event) {
+    const input = event.target;
+    if (!(input instanceof HTMLInputElement)) return;
+    this._emitChange(input);
+  }
+
+  /**
+   * @param {HTMLInputElement} input
+   */
+  _emitChange(input) {
+    const value = input.value;
     const event = new CustomEvent("th-control__change", {
       detail: { value, aspect: this._aspect },
       bubbles: true,

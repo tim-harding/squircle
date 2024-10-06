@@ -61,7 +61,7 @@ export default class SquircleCanvas extends HTMLElement {
         canvas.width = Math.round(this._width);
         canvas.height = Math.round(this._height);
         ctx.scale(devicePixelRatio, devicePixelRatio);
-        draw(ctx, this._width, this._height, this._radius);
+        this._draw();
       }
     });
     observer.observe(this);
@@ -103,28 +103,49 @@ export default class SquircleCanvas extends HTMLElement {
   }
 
   _scheduleRedraw() {
-    if (this._animationFrame < 0) return;
+    if (this._animationFrame >= 0) return;
 
     const context = this._context;
     if (context === null) return;
 
     this._animationFrame = requestAnimationFrame(() => {
       this._animationFrame = -1;
-      draw(context, this._width, this._height, this._radius);
+      this._draw();
     });
   }
-}
 
-/**
- * @param {CanvasRenderingContext2D} ctx
- * @param {number} width
- * @param {number} height
- * @param {number} radius
- */
-function draw(ctx, width, height, radius) {
-  ctx.reset();
-  ctx.fillStyle = "black";
-  const l = Math.min(width, height) / 2;
-  const r = Math.min(l, radius);
-  paint(ctx, 0, 0, width, height, r);
+  _draw() {
+    let {
+      _context: ctx,
+      _width: w,
+      _height: h,
+      _radius: r,
+      _fill: fill,
+      _borderWidth: bw,
+      _borderColor: bc,
+    } = this;
+    if (ctx === null) return;
+
+    const l = Math.min(w, h) / 2;
+    r = Math.min(l, r);
+
+    ctx.reset();
+
+    if (bc !== "transparent" && bw > 0) {
+      ctx.fillStyle = this._borderColor;
+      paint(ctx, 0, 0, w, h, r);
+    }
+
+    if (fill !== "transparent") {
+      ctx.fillStyle = fill;
+      paint(
+        ctx,
+        bw,
+        bw,
+        w - bw * 2,
+        h - bw * 2,
+        r - this._borderWidth / Math.SQRT2,
+      );
+    }
+  }
 }
