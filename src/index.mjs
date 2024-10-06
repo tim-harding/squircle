@@ -6,6 +6,8 @@
  *
  * @typedef {{ segments: number, indexToParameter: number, exponent: number }}
  * CornerParameters
+ *
+ * @typedef {{ w: number, h: number, l: number, r: number}} ClampedArguments
  */
 
 /**
@@ -82,10 +84,7 @@ export function paint(ctx, x, y, width, height, radius) {
  * @yields {Point}
  */
 export function* points(x, y, width, height, radius) {
-  const w = Math.max(0, width);
-  const h = Math.max(0, height);
-  const l = Math.min(w, h) / 2;
-  const r = Math.max(0, Math.min(radius, l));
+  const { w, h, l, r } = clampArguments(width, height, radius);
   const { segments, exponent, indexToParameter } = cornerParameters(r, l);
 
   for (let i = 0; i < 4; i++) {
@@ -104,6 +103,20 @@ export function* points(x, y, width, height, radius) {
       yield { x, y };
     }
   }
+}
+
+/**
+ * @param {number} width Rectangle width
+ * @param {number} height Rectangle height
+ * @param {number} radius Corner radius
+ * @returns {ClampedArguments}
+ */
+function clampArguments(width, height, radius) {
+  const w = Math.max(0, width);
+  const h = Math.max(0, height);
+  const l = Math.min(w, h) / 2;
+  const r = Math.max(0, Math.min(radius, l));
+  return { w, h, l, r };
 }
 
 /**
