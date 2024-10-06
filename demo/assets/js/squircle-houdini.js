@@ -11,7 +11,6 @@ export default class SquircleHoudini extends HTMLElement {
   }
 
   connectedCallback() {
-    this.classList.add("th-squircle");
     this.classList.add("squircle");
   }
 

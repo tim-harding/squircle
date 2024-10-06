@@ -43,6 +43,10 @@ th-drag-area {
   position: relative;
   grid-area: "drag-area";
   background-color: gray;
+
+  & > th-squircle {
+    position: absolute;
+  }
 }
 
 th-corner {

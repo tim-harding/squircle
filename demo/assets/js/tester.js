@@ -22,6 +22,8 @@ export class Tester extends HTMLElement {
 
 const SIDE_OFFSET = 32;
 
+// TODO: Resize observer and move handler accordingly
+
 export class DragArea extends HTMLElement {
   _l = SIDE_OFFSET;
   _r = 0;
@@ -32,14 +34,19 @@ export class DragArea extends HTMLElement {
 
   constructor() {
     super();
-    const listen = listenPassive.bind(this);
+    const listen = listenPassive.bind(this, this);
     listen("th-corner__update", this._handleCornerUpdate);
     listen("th-corner__register", this._handleCornerRegister);
     listen("th-control__change", this._handleControlChange);
   }
 
   connectedCallback() {
+    const { clientWidth: w, clientHeight: h } = this;
+    this._r = w - SIDE_OFFSET;
+    this._b = h - SIDE_OFFSET;
+
     this._squircle = this.querySelector("th-squircle");
+    this._updateSquircleCorners();
   }
 
   /**
@@ -47,24 +54,18 @@ export class DragArea extends HTMLElement {
    */
   _handleCornerRegister(event) {
     const corner = event.target;
-    if (!(corner instanceof Corner)) {
-      console.warn("Expected a corner element");
-      return;
-    }
+    if (!(corner instanceof Corner)) return;
 
     switch (corner._side) {
       case "top-left": {
-        corner.setAttribute("y", `${this._t}px`);
         corner.setAttribute("x", `${this._l}px`);
+        corner.setAttribute("y", `${this._t}px`);
         break;
       }
 
       case "bottom-right": {
-        const { clientWidth: w, clientHeight: h } = this;
-        this._r = w - SIDE_OFFSET;
-        this._b = h - SIDE_OFFSET;
-        corner.setAttribute("y", `${this._b}px`);
         corner.setAttribute("x", `${this._r}px`);
+        corner.setAttribute("y", `${this._b}px`);
         break;
       }
 
@@ -79,7 +80,47 @@ export class DragArea extends HTMLElement {
    * @param {CornerEvent} event
    */
   _handleCornerUpdate(event) {
-    console.log(event);
+    const corner = event.target;
+    if (!(corner instanceof Corner)) return;
+
+    const { x: xSelf, y: ySelf, width, height } = this.getBoundingClientRect();
+    const { side, x: xViewport, y: yViewport } = event.detail;
+
+    const x = Math.max(0, Math.min(width, xViewport - xSelf));
+    const y = Math.max(0, Math.min(height, yViewport - ySelf));
+
+    corner.setAttribute("x", `${x}px`);
+    corner.setAttribute("y", `${y}px`);
+
+    switch (side) {
+      case "top-left": {
+        this._l = x;
+        this._t = y;
+        break;
+      }
+
+      case "bottom-right": {
+        this._r = x;
+        this._b = y;
+        break;
+      }
+    }
+
+    this._updateSquircleCorners();
+  }
+
+  _updateSquircleCorners() {
+    const x = this._l;
+    const y = this._t;
+    const w = this._r - x;
+    const h = this._b - y;
+
+    const squircle = this._squircle;
+    if (squircle === null) return;
+    squircle.style.left = `${x}px`;
+    squircle.style.top = `${y}px`;
+    squircle.style.width = `${w}px`;
+    squircle.style.height = `${h}px`;
   }
 
   /**
@@ -100,10 +141,11 @@ export class Corner extends HTMLElement {
 
   constructor() {
     super();
-    const listen = listenPassive.bind(this);
+    const listen = listenPassive.bind(this, this);
+    const listenDoc = listenPassive.bind(this, document);
     listen("mousedown", this._handleMouseDown);
-    listen("mouseup", this._handleMouseUp);
-    listen("mousemove", this._handleMouseMove);
+    listenDoc("mouseup", this._handleMouseUp);
+    listenDoc("mousemove", this._handleMouseMove);
   }
 
   /**
@@ -145,7 +187,7 @@ export class Corner extends HTMLElement {
    */
   _handleMouseMove(mouseEvent) {
     if (!this._isPressed) return;
-    const { movementX: x, movementY: y } = mouseEvent;
+    const { clientX: x, clientY: y } = mouseEvent;
     const event = new CustomEvent("th-corner__update", {
       detail: { x, y, side: this._side },
       bubbles: true,
@@ -172,7 +214,7 @@ export class Control extends HTMLElement {
       return;
     }
 
-    const listen = listenPassive.bind(this);
+    const listen = listenPassive.bind(this, this);
     listen("change", this._handleChange);
   }
 
@@ -206,12 +248,13 @@ export class Control extends HTMLElement {
 }
 
 /**
- * @this {HTMLElement}
+ * @this {any}
+ * @param {any} target
  * @param {string} name
  * @param {any} handler
  */
-function listenPassive(name, handler) {
-  this.addEventListener(name, handler.bind(this), {
+function listenPassive(target, name, handler) {
+  target.addEventListener(name, handler.bind(this), {
     passive: true,
   });
 }

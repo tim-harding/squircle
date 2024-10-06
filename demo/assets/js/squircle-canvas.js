@@ -11,8 +11,8 @@ export default class SquircleCanvas extends HTMLElement {
   _borderColor = "transparent";
   /** @type {number} */
   _animationFrame = -1;
-  /** @type {CanvasRenderingContext2D} */
-  _context;
+  /** @type {CanvasRenderingContext2D?} */
+  _context = null;
 
   static observedAttributes = [
     "radius",
@@ -90,7 +90,7 @@ export default class SquircleCanvas extends HTMLElement {
       }
 
       case "border-color": {
-        this._borderColor = Number.parseFloat(newValue);
+        this._borderColor = newValue;
         break;
       }
 
@@ -104,16 +104,19 @@ export default class SquircleCanvas extends HTMLElement {
 
   _scheduleRedraw() {
     if (this._animationFrame < 0) return;
+
+    const context = this._context;
+    if (context === null) return;
+
     this._animationFrame = requestAnimationFrame(() => {
       this._animationFrame = -1;
-      draw(this._context, this._width, this._height);
+      draw(context, this._width, this._height);
     });
   }
 }
 
 /**
  * @param {CanvasRenderingContext2D} ctx
- * @param {number} dt Delta time in milliseconds
  * @param {number} width
  * @param {number} height
  */
