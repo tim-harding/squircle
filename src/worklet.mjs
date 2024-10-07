@@ -1,14 +1,4 @@
-import { draw } from "./index.mjs";
-
-// The properties `--squircle-fill` and `--squircle-border-color` are already
-// parsed by the CSS engine and come to us in one of two forms:
-//
-// - rgba(64, 191, 191, 0.5)
-// - rgb(64, 191, 191)
-//
-// We want to skip drawing the fill or border only if it is fully transparent,
-// which this regex checks for.
-const TRANSPARENT = /^rgba\(\d+, \d+, \d+, 0\)$/;
+import { paint } from "./index.mjs";
 
 /**
  * @typedef {CanvasRenderingContext2D} PaintRenderingContext2D
@@ -45,26 +35,7 @@ class Squircle {
     const borderWidth = propUnit(props, "--squircle-border-width");
     const fill = propString(props, "--squircle-fill");
     const borderColor = propString(props, "--squircle-border-color");
-
-    const isFillTransparent = TRANSPARENT.test(fill);
-    const isFillVisible = !isFillTransparent;
-
-    const isBorderTransparent = TRANSPARENT.test(borderColor);
-    const isBorderVisible = borderWidth > 0 && !isBorderTransparent;
-
-    draw(ctx, 0, 0, width, height, radius);
-    ctx.clip();
-
-    if (isFillVisible) {
-      ctx.fillStyle = fill;
-      ctx.fillRect(0, 0, width, height);
-    }
-
-    if (isBorderVisible) {
-      ctx.lineWidth = borderWidth * 2;
-      ctx.strokeStyle = borderColor;
-      ctx.stroke();
-    }
+    paint(ctx, 0, 0, width, height, radius, borderWidth, fill, borderColor);
   }
 }
 

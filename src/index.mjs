@@ -66,8 +66,65 @@ export function path(x, y, width, height, radius) {
   return out;
 }
 
+// The properties `--squircle-fill` and `--squircle-border-color` are already
+// parsed by the CSS engine and come to us in one of two forms:
+//
+// - rgba(64, 191, 191, 0.5)
+// - rgb(64, 191, 191)
+//
+// We want to skip drawing the fill or border only if it is fully transparent,
+// which this regex checks for. Not sure if this is totally necessary or if
+// canvas already skips transparent fills, but it seems worth including for
+// safety.
+const TRANSPARENT = /^rgba\(\d+, \d+, \d+, 0\)$/;
+
 /**
- * Draws a squircle to the canvas.
+ * Paints a squircle onto the canvas
+ *
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} x Top-left corner x-coordinate
+ * @param {number} y Top-left corner y-coordinate
+ * @param {number} width Rectangle width
+ * @param {number} height Rectangle height
+ * @param {number} radius Border radius
+ * @param {number} borderWidth Border stroke thickness
+ * @param {string} fill Fill color
+ * @param {string} borderColor Border stroke color
+ */
+export function paint(
+  ctx,
+  x,
+  y,
+  width,
+  height,
+  radius,
+  borderWidth,
+  fill,
+  borderColor,
+) {
+  const isFillTransparent = TRANSPARENT.test(fill);
+  const isFillVisible = !isFillTransparent;
+
+  const isBorderTransparent = TRANSPARENT.test(borderColor);
+  const isBorderVisible = borderWidth > 0 && !isBorderTransparent;
+
+  draw(ctx, x, y, width, height, radius);
+  ctx.clip();
+
+  if (isFillVisible) {
+    ctx.fillStyle = fill;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  if (isBorderVisible) {
+    ctx.lineWidth = borderWidth * 2;
+    ctx.strokeStyle = borderColor;
+    ctx.stroke();
+  }
+}
+
+/**
+ * Adds a squircle path to the canvas
  *
  * @param {CanvasRenderingContext2D} ctx
  * @param {number} x Top-left corner x-coordinate

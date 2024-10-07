@@ -16,7 +16,7 @@ body {
 
 .radius-1rem {
   --squircle-radius: 2rem;
-  --squircle-fill: hsla(120deg 50% 50% / 0.5);
+  --squircle-fill: transparent;
   --squircle-border-width: 8px;
   --squircle-border-color: hsla(240deg 50% 50% / 0.2);
 }
