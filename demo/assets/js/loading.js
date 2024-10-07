@@ -9,20 +9,24 @@ export async function load() {
     loadPaintWorklet(),
     loadComponents(),
   ]);
+  console.log("loaded");
   resolve(undefined);
 }
 
 async function loadComponents() {
-  const modules = await Promise.all([
+  const promises = [
     import("./tester.js"),
     import("./drag-area.js"),
     import("./control.js"),
     import("./corner.js"),
-  ]);
-  for (const module of modules) {
-    const { NAME, Component } = module;
-    customElements.define(NAME, Component);
-  }
+  ].map((promise) =>
+    promise.then(({ NAME, Component }) => {
+      console.log(NAME);
+      customElements.define(NAME, Component);
+    }),
+  );
+  await Promise.all(promises);
+  console.log("loaded components");
 }
 
 async function loadPaintWorklet() {
@@ -31,6 +35,7 @@ async function loadPaintWorklet() {
     "https://unpkg.com/superellipse-squircle@0.1.7/index.mjs"
   );
   register("https://unpkg.com/superellipse-squircle@0.1.7/worklet.min.js");
+  console.log("Loaded worklet");
 }
 
 async function loadSquircleComponent() {
@@ -39,4 +44,5 @@ async function loadSquircleComponent() {
     : import("./squircle-canvas.js");
   const module = await promise;
   customElements.define("th-squircle", module.default);
+  console.log("Loaded squircle");
 }

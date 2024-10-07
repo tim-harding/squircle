@@ -1,15 +1,10 @@
-import { paint } from "https://unpkg.com/superellipse-squircle@0.1.6/index.mjs";
+import { paint } from "https://unpkg.com/superellipse-squircle@0.1.7/index.mjs";
 
 export default class SquircleCanvas extends HTMLElement {
-  /** @type {number} */
   _radius = 0;
-  /** @type {string} */
   _fill = "transparent";
-  /** @type {number} */
   _borderWidth = 0;
-  /** @type {string} */
   _borderColor = "transparent";
-  /** @type {number} */
   _animationFrame = -1;
   /** @type {CanvasRenderingContext2D?} */
   _context = null;
@@ -132,12 +127,12 @@ export default class SquircleCanvas extends HTMLElement {
     ctx.reset();
 
     if (bc !== "transparent" && bw > 0) {
-      ctx.fillStyle = this._borderColor;
       paint(ctx, 0, 0, w, h, r);
+      ctx.fillStyle = this._borderColor;
+      ctx.fill();
     }
 
     if (fill !== "transparent") {
-      ctx.fillStyle = fill;
       paint(
         ctx,
         bw,
@@ -146,6 +141,8 @@ export default class SquircleCanvas extends HTMLElement {
         h - bw * 2,
         r - this._borderWidth / Math.SQRT2,
       );
+      ctx.fillStyle = fill;
+      ctx.fill();
     }
   }
 }

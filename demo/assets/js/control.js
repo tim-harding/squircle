@@ -1,3 +1,4 @@
+import { loaded } from "./loading.js";
 import { listenPassive } from "./shared.js";
 
 export class Control extends HTMLElement {
@@ -21,7 +22,9 @@ export class Control extends HTMLElement {
     const listen = listenPassive.bind(this, input);
     listen("input", this._handleChange);
 
-    this._emitChange(input);
+    loaded.then(() => {
+      this._emitChange(input);
+    });
   }
 
   /**
