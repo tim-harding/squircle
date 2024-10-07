@@ -32,9 +32,9 @@ async function loadComponents() {
 async function loadPaintWorklet() {
   if (!IS_PAINT_SUPPORTED) return;
   const { register } = await import(
-    "https://unpkg.com/superellipse-squircle@0.1.7/index.mjs"
+    "https://unpkg.com/superellipse-squircle@0.1.8/index.mjs"
   );
-  register("https://unpkg.com/superellipse-squircle@0.1.7/worklet.min.js");
+  register("https://unpkg.com/superellipse-squircle@0.1.8/worklet.min.js");
   console.log("Loaded worklet");
 }
 

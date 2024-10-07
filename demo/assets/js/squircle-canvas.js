@@ -1,4 +1,4 @@
-import { paint } from "https://unpkg.com/superellipse-squircle@0.1.7/index.mjs";
+import { paint } from "https://unpkg.com/superellipse-squircle@0.1.8/index.mjs";
 
 export default class SquircleCanvas extends HTMLElement {
   _radius = 0;
