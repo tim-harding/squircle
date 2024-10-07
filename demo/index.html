@@ -41,10 +41,10 @@
       </th-drag-area>
 
       <form>
-        <th-control aspect="radius">
-          <label for="tester-input-radius">Radius</label>
+        <th-control aspect="border-radius">
+          <label for="tester-input-border-radius">Radius</label>
           <input
-            id="tester-input-radius"
+            id="tester-input-border-radius"
             type="range"
             min="0"
             max="64"
@@ -52,9 +52,13 @@
           />
         </th-control>
 
-        <th-control aspect="fill">
-          <label for="tester-input-fill">Fill</label>
-          <input id="tester-input-fill" type="color" value="#0090FF" />
+        <th-control aspect="background-color">
+          <label for="tester-input-background-color">Fill</label>
+          <input
+            id="tester-input-background-color"
+            type="color"
+            value="#0090FF"
+          />
         </th-control>
 
         <th-control aspect="border-width">
