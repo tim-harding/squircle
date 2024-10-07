@@ -94,10 +94,10 @@ export function path(x, y, width, height, radius) {
 export function polygon(x, y, width, height, radius) {
   const { w, h, l, r } = clampArguments(width, height, radius);
   const { segments, exponent, indexToParameter } = cornerParameters(r, l);
-  let q0 = "";
-  let q1 = "";
-  let q2 = "";
-  let q3 = "";
+  let q0 = [];
+  let q1 = [];
+  let q2 = [];
+  let q3 = [];
   for (const { x: x0, y: y0 } of cornerPoints(
     segments,
     indexToParameter,
@@ -110,14 +110,14 @@ export function polygon(x, y, width, height, radius) {
     const b = `calc(100% - ${y}px)`;
     const t = `calc(0% + ${y}px)`;
 
-    q0 += `${r} ${b}, `;
-    q1 += `${l} ${b}, `;
-    q2 += `${l} ${t}, `;
-    q3 += `${r} ${t}, `;
+    q0.push(`${r} ${b}`);
+    q1.push(`${l} ${b}`);
+    q2.push(`${l} ${t}`);
+    q3.push(`${r} ${t}`);
   }
-  q3 = q3.slice(0, q3.length - 2);
-  console.log(q3);
-  return `polygon(${q0} ${q1} ${q2} ${q3})`;
+  q1.reverse();
+  q3.reverse();
+  return `polygon(${q0.join(", ")}, ${q1.join(", ")}, ${q2.join(", ")}, ${q3.join(", ")})`;
 }
 
 /**
