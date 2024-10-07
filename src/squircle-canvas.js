@@ -55,7 +55,7 @@ export default class SquircleCanvas extends HTMLElement {
         canvas.width = Math.round(this._width);
         canvas.height = Math.round(this._height);
         ctx.scale(devicePixelRatio, devicePixelRatio);
-        this._draw(false);
+        this._draw();
       }
     });
     observer.observe(this);
@@ -100,21 +100,15 @@ export default class SquircleCanvas extends HTMLElement {
     if (this._animationFrame >= 0) return;
     this._animationFrame = requestAnimationFrame(() => {
       this._animationFrame = -1;
-      this._draw(true);
+      this._draw();
     });
   }
 
-  /**
-   * @param {boolean} isDirty Whether the canvas needs to be cleared first
-   */
-  _draw(isDirty) {
+  _draw() {
     const { _context: ctx } = this;
     if (ctx === null) return;
 
-    if (isDirty) {
-      ctx.clearRect(0, 0, this._width, this._height);
-    }
-
+    ctx.reset();
     paint(
       ctx,
       0,
