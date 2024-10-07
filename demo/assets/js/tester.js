@@ -2,6 +2,8 @@ import { listenPassive } from "./shared.js";
 import "./control.js";
 import "./drag-area.js";
 
+// TODO: Rounded rect toggle
+
 export class Tester extends HTMLElement {
   /** @type {HTMLElement?} */
   _squircle = null;

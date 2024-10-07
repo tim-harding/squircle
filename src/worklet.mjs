@@ -36,6 +36,7 @@ class Squircle {
     const fill = propString(props, "--squircle-fill");
     const borderColor = propString(props, "--squircle-border-color");
 
+    // TODO: Checking for "transparent" doesn't cover e.g. rgb(0 0 0 / 0)
     const isBorderVisible = borderWidth !== 0 && borderColor !== "transparent";
     if (isBorderVisible) {
       paint(ctx, 0, 0, width, height, radius);
