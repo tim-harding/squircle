@@ -1,14 +1,20 @@
-import { Tester, Corner, Control, DragArea } from "./tester.js";
-
 const IS_PAINT_SUPPORTED = CSS.supports("background", "paint(id)");
 
 function main() {
   loadSquircleComponent();
   loadPaintWorklet();
-  customElements.define("th-tester", Tester);
-  customElements.define("th-drag-area", DragArea);
-  customElements.define("th-corner", Corner);
-  customElements.define("th-control", Control);
+  const modulePromises = [
+    import("./tester.js"),
+    import("./drag-area.js"),
+    import("./control.js"),
+    import("./corner.js"),
+  ];
+  Promise.all(modulePromises).then((modules) => {
+    for (const module of modules) {
+      const { NAME, Component } = module;
+      customElements.define(NAME, Component);
+    }
+  });
 }
 
 async function loadPaintWorklet() {
