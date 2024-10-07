@@ -2,12 +2,6 @@
  * @typedef {Object} Point
  * @property {number} x x-coordinate
  * @property {number} y y-coordinate
- *
- * @typedef {Object} Matrix2x2 A rotation matrix, indexed by row then column
- * @property {number} m11
- * @property {number} m21
- * @property {number} m12
- * @property {number} m22
  */
 
 /**
@@ -111,105 +105,26 @@ export function* points(x, y, width, height, radius) {
   const indexToParameter = Math.PI / 2 / segments;
 
   for (let i = 0; i < 4; i++) {
-    const { x: sideX, y: sideY } = side(i);
-    const m13 = translate1D(sideX, x, w, l);
-    const m23 = translate1D(sideY, y, h, l);
-    let { m11, m21, m12, m22 } = rotateScale(sideX, sideY, l);
+    const sideX = i === 0 || i === 3 ? 0 : 1;
+    const sideY = i < 2 ? 0 : 1;
+    const odd = i % 2;
+    const even = 1 - odd;
+    const rotateX = (sideX * 2 - 1) * l;
+    const rotateY = (sideY * 2 - 1) * l;
+    const m11 = rotateY * even;
+    const m21 = rotateY * odd;
+    const m12 = rotateX * odd;
+    const m22 = rotateX * even;
+    const m13 = w * sideX + l * (1 - sideX * 2) + x;
+    const m23 = h * sideY + l * (1 - sideY * 2) + y;
 
-    for (const { x: x0, y: y0 } of cornerPoints(
-      segments,
-      indexToParameter,
-      exponent,
-    )) {
+    for (let i = 0; i < segments + 1; i++) {
+      const t = i * indexToParameter;
+      const x0 = Math.cos(t) ** exponent;
+      const y0 = Math.sin(t) ** exponent;
       const x = x0 * m11 + y0 * m12 + m13;
       const y = x0 * m21 + y0 * m22 + m23;
       yield { x, y };
     }
   }
-}
-
-/**
- * Corner translation for one axis
- *
- * @param {number} side Output of `side` for the given axis
- * @param {number} x Base offset
- * @param {number} w Length of the given side
- * @param {number} l Half length of the shorter side
- * @returns {number}
- */
-function translate1D(side, x, w, l) {
-  return w * side + l * (1 - side * 2) + x;
-}
-
-/**
- * Calculates which side of the graph the given corner is on
- *
- * @param {number} i Quadrant index
- * @return {Point} x=0 => right, x=1 => left, y=0 => top, y=1 => bottom
- */
-function side(i) {
-  const right = i === 0 || i === 3;
-  const top = i < 2;
-  const x = right ? 0 : 1;
-  const y = top ? 0 : 1;
-  return { x, y };
-}
-
-/**
- * Creates a matrix to rotate and scale corner points
- *
- * @param {number} x x-axis side
- * @param {number} y y-axis side
- * @param {number} l Scale factor
- * @returns {Matrix2x2}
- */
-function rotateScale(x, y, l) {
-  const rotation = rotate(x, y);
-  rotation.m11 *= l;
-  rotation.m21 *= l;
-  rotation.m12 *= l;
-  rotation.m22 *= l;
-  return rotation;
-}
-
-/**
- * Creates a matrix to rotate corner
- *
- * @param {number} x x-axis side
- * @param {number} y y-axis side
- * @returns {Matrix2x2}
- */
-function rotate(x, y) {
-  const odd = x ^ y;
-  const even = 1 - odd;
-  const rotateX = x * 2 - 1;
-  const rotateY = y * 2 - 1;
-  const m11 = rotateY * even;
-  const m21 = rotateY * odd;
-  const m12 = rotateX * odd;
-  const m22 = rotateX * even;
-  return { m11, m21, m12, m22 };
-}
-
-/**
- * Iterates the points for a single squircle corner. Points are bounded by the
- * the first quadrant unit square and are generated from (1,0) to (0,1).
- *
- * @param {number} segments Number of line segments
- * @param {number} indexToParameter Scalar to convert from the loop index in
- * 0..segments+1 to a parameter in 0..pi/2 for the parametric superellipse
- * formula
- * @param {number} exponent Power to raise circle coordinates to in the
- * parametric superellipse formula
- * @yields {Point}
- */
-export function* cornerPoints(segments, indexToParameter, exponent) {
-  yield { x: 1, y: 0 };
-  for (let i = 1; i < segments; i++) {
-    const t = i * indexToParameter;
-    const x = Math.cos(t) ** exponent;
-    const y = Math.sin(t) ** exponent;
-    yield { x, y };
-  }
-  yield { x: 0, y: 1 };
 }
