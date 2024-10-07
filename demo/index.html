@@ -7,11 +7,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script
-      src="{{ '/assets/js/demo.js' | relative_url }}"
-      type="module"
-      async
-    ></script>
+    <script type="module">
+      import("{{ '/assets/js/loading.js' | relative_url }}").then(({ load }) =>
+        load(),
+      );
+    </script>
 
     <link
       href="https://unpkg.com/superellipse-squircle@0.1.7/index.css"

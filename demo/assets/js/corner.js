@@ -1,5 +1,5 @@
 import { listenPassive } from "./shared.js";
-import { NAME as NAME_DRAG_AREA } from "./drag-area.js";
+import { loaded } from "./loading.js";
 
 export class Corner extends HTMLElement {
   _isPressed = false;
@@ -27,7 +27,7 @@ export class Corner extends HTMLElement {
     switch (name) {
       case "side": {
         this._side = newValue;
-        customElements.whenDefined(NAME_DRAG_AREA).then(() => {
+        loaded.then(() => {
           const event = new CustomEvent("th-corner__register", {
             bubbles: true,
           });

@@ -1,20 +1,28 @@
 const IS_PAINT_SUPPORTED = CSS.supports("background", "paint(id)");
 
-function main() {
-  loadSquircleComponent();
-  loadPaintWorklet();
-  const modulePromises = [
+const { promise, resolve } = Promise.withResolvers();
+export const loaded = promise;
+
+export async function load() {
+  await Promise.all([
+    loadSquircleComponent(),
+    loadPaintWorklet(),
+    loadComponents(),
+  ]);
+  resolve(undefined);
+}
+
+async function loadComponents() {
+  const modules = await Promise.all([
     import("./tester.js"),
     import("./drag-area.js"),
     import("./control.js"),
     import("./corner.js"),
-  ];
-  Promise.all(modulePromises).then((modules) => {
-    for (const module of modules) {
-      const { NAME, Component } = module;
-      customElements.define(NAME, Component);
-    }
-  });
+  ]);
+  for (const module of modules) {
+    const { NAME, Component } = module;
+    customElements.define(NAME, Component);
+  }
 }
 
 async function loadPaintWorklet() {
@@ -32,5 +40,3 @@ async function loadSquircleComponent() {
   const module = await promise;
   customElements.define("th-squircle", module.default);
 }
-
-main();
