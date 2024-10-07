@@ -36,21 +36,21 @@ export class DragArea extends HTMLElement {
     const corner = event.target;
     if (!(corner instanceof Corner)) return;
 
-    switch (corner._side) {
+    switch (corner.side) {
       case "top-left": {
-        corner.setAttribute("x", `${this._l}px`);
-        corner.setAttribute("y", `${this._t}px`);
+        corner.x = `${this._l}px`;
+        corner.y = `${this._t}px`;
         break;
       }
 
       case "bottom-right": {
-        corner.setAttribute("x", `${this._r}px`);
-        corner.setAttribute("y", `${this._b}px`);
+        corner.x = `${this._r}px`;
+        corner.y = `${this._b}px`;
         break;
       }
 
       default: {
-        console.warn(`Unexpected corner side: ${corner._side}`);
+        console.warn(`Unexpected corner side: ${corner.side}`);
         break;
       }
     }
@@ -69,8 +69,8 @@ export class DragArea extends HTMLElement {
     const x = Math.max(0, Math.min(width, xViewport - xSelf));
     const y = Math.max(0, Math.min(height, yViewport - ySelf));
 
-    corner.setAttribute("x", `${x}px`);
-    corner.setAttribute("y", `${y}px`);
+    corner.x = `${x}px`;
+    corner.y = `${y}px`;
 
     switch (side) {
       case "top-left": {

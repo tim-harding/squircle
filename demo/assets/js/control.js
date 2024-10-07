@@ -1,7 +1,7 @@
 import { listenPassive } from "./shared.js";
 
 export class Control extends HTMLElement {
-  _aspect = "";
+  #aspect = "";
 
   static get observedAttributes() {
     return ["aspect"];
@@ -32,7 +32,7 @@ export class Control extends HTMLElement {
   attributeChangedCallback(name, _, newValue) {
     switch (name) {
       case "aspect": {
-        this._aspect = newValue;
+        this.#aspect = newValue;
         break;
       }
     }
@@ -55,7 +55,7 @@ export class Control extends HTMLElement {
     const event = new CustomEvent("th-control__change", {
       detail: {
         value: input.type === "range" ? `${value}px` : value,
-        aspect: this._aspect,
+        aspect: this.#aspect,
       },
       bubbles: true,
     });

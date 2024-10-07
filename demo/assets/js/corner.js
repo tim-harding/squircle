@@ -2,11 +2,29 @@ import { listenPassive } from "./shared.js";
 import { loaded } from "./loading.js";
 
 export class Corner extends HTMLElement {
-  _isPressed = false;
-  _side = "";
+  #isPressed = false;
+  #side = "";
+
+  get side() {
+    return this.#side;
+  }
+
+  /**
+   * @param {string} value
+   */
+  set x(value) {
+    this.style.left = value;
+  }
+
+  /**
+   * @param {string} value
+   */
+  set y(value) {
+    this.style.top = value;
+  }
 
   static get observedAttributes() {
-    return ["side", "x", "y"];
+    return ["side"];
   }
 
   constructor() {
@@ -26,7 +44,7 @@ export class Corner extends HTMLElement {
   attributeChangedCallback(name, _, newValue) {
     switch (name) {
       case "side": {
-        this._side = newValue;
+        this.#side = newValue;
         loaded.then(() => {
           const event = new CustomEvent("th-corner__register", {
             bubbles: true,
@@ -35,35 +53,25 @@ export class Corner extends HTMLElement {
         });
         break;
       }
-
-      case "x": {
-        this.style.left = newValue;
-        break;
-      }
-
-      case "y": {
-        this.style.top = newValue;
-        break;
-      }
     }
   }
 
   _handleMouseDown() {
-    this._isPressed = true;
+    this.#isPressed = true;
   }
 
   _handleMouseUp() {
-    this._isPressed = false;
+    this.#isPressed = false;
   }
 
   /**
    * @param {MouseEvent} mouseEvent
    */
   _handleMouseMove(mouseEvent) {
-    if (!this._isPressed) return;
+    if (!this.#isPressed) return;
     const { clientX: x, clientY: y } = mouseEvent;
     const event = new CustomEvent("th-corner__update", {
-      detail: { x, y, side: this._side },
+      detail: { x, y, side: this.#side },
       bubbles: true,
     });
     this.dispatchEvent(event);
