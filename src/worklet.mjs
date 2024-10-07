@@ -50,24 +50,18 @@ class Squircle {
     const isFillVisible = !isFillTransparent;
 
     const isBorderTransparent = TRANSPARENT.test(borderColor);
-    const isBorderVisible = !isBorderTransparent && borderWidth > 0;
+    const isBorderVisible = borderWidth > 0 && !isBorderTransparent;
 
-    draw(
-      ctx,
-      borderWidth / 2,
-      borderWidth / 2,
-      width - borderWidth,
-      height - borderWidth,
-      radius - borderWidth / 2 / Math.SQRT2,
-    );
+    draw(ctx, 0, 0, width, height, radius);
+    ctx.clip();
 
     if (isFillVisible) {
       ctx.fillStyle = fill;
-      ctx.fill();
+      ctx.fillRect(0, 0, width, height);
     }
 
     if (isBorderVisible) {
-      ctx.lineWidth = borderWidth;
+      ctx.lineWidth = borderWidth * 2;
       ctx.strokeStyle = borderColor;
       ctx.stroke();
     }
