@@ -19,8 +19,3 @@ body {
   --squircle-border-width: 8px;
   --squircle-border-color: black;
 }
-
-#clipped {
-  background-color: black;
-  --squircle-radius: 32px;
-}

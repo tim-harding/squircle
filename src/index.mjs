@@ -71,34 +71,6 @@ export function path(x, y, width, height, radius) {
 }
 
 /**
- * @returns {string}
- */
-export function polygon() {
-  const segments = 16;
-  let q0 = [];
-  let q1 = [];
-  let q2 = [];
-  let q3 = [];
-  for (let i = 0; i < segments + 1; i++) {
-    const u = ((i / segments) * Math.PI) / 2;
-    const x = 1 - Math.cos(u);
-    const y = 1 - Math.sin(u);
-    const r = `calc(100% - var(--squircle-radius) * ${x})`;
-    const l = `calc(0%   + var(--squircle-radius) * ${x})`;
-    const b = `calc(100% - var(--squircle-radius) * ${y})`;
-    const t = `calc(0%   + var(--squircle-radius) * ${y})`;
-
-    q0.push(`${r} ${b}`);
-    q1.push(`${l} ${b}`);
-    q2.push(`${l} ${t}`);
-    q3.push(`${r} ${t}`);
-  }
-  q1.reverse();
-  q3.reverse();
-  return `polygon(${q0.join(", ")}, ${q1.join(", ")}, ${q2.join(", ")}, ${q3.join(", ")})`;
-}
-
-/**
  * Draws a squircle to the canvas.
  *
  * @param {CanvasRenderingContext2D} ctx
