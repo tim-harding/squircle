@@ -47,6 +47,8 @@ export function register(workletUrl) {
 }
 
 /**
+ * Creates a path to be used with the SVG `d` attribute
+ *
  * @param {number} x Top-left corner x-coordinate
  * @param {number} y Top-left corner y-coordinate
  * @param {number} width Rectangle width
@@ -86,7 +88,7 @@ export function paint(ctx, x, y, width, height, radius) {
 }
 
 /**
- * Iterates the points for a squircle
+ * Generates the points for a squircle
  *
  * @param {number} x Top-left corner x-coordinate
  * @param {number} y Top-left corner y-coordinate
