@@ -92,17 +92,32 @@ export function path(x, y, width, height, radius) {
  * @returns {string}
  */
 export function polygon(x, y, width, height, radius) {
-  let out = "polygon(";
   const { w, h, l, r } = clampArguments(width, height, radius);
   const { segments, exponent, indexToParameter } = cornerParameters(r, l);
-  const q0 = cornerPoints(segments, indexToParameter, exponent);
-  for (const { x: x0, y: y0 } of q0) {
+  let q0 = "";
+  let q1 = "";
+  let q2 = "";
+  let q3 = "";
+  for (const { x: x0, y: y0 } of cornerPoints(
+    segments,
+    indexToParameter,
+    exponent,
+  )) {
     const x = ((1 - x0) * radius).toFixed(2);
     const y = ((1 - y0) * radius).toFixed(2);
-    out += `calc(100% - ${x}px) calc(100% - ${y}px), `;
+    const r = `calc(100% - ${x}px)`;
+    const l = `calc(0% + ${x}px)`;
+    const b = `calc(100% - ${y}px)`;
+    const t = `calc(0% + ${y}px)`;
+
+    q0 += `${r} ${b}, `;
+    q1 += `${l} ${b}, `;
+    q2 += `${l} ${t}, `;
+    q3 += `${r} ${t}, `;
   }
-  out += "0% 100%, 0% 0%, 100% 0%)";
-  return out;
+  q3 = q3.slice(0, q3.length - 2);
+  console.log(q3);
+  return `polygon(${q0} ${q1} ${q2} ${q3})`;
 }
 
 /**
