@@ -61,17 +61,23 @@ export function paint(
   const isBorderVisible = borderWidth > 0 && !isBorderTransparent;
 
   draw(ctx, x, y, width, height, radius);
-  ctx.clip();
 
   if (isFillVisible) {
     ctx.fillStyle = fill;
-    ctx.fillRect(0, 0, width, height);
+    ctx.fill();
   }
 
   if (isBorderVisible) {
-    ctx.lineWidth = borderWidth * 2;
-    ctx.strokeStyle = borderColor;
-    ctx.stroke();
+    draw(
+      ctx,
+      x + borderWidth,
+      y + borderWidth,
+      width - borderWidth * 2,
+      height - borderWidth * 2,
+      radius - borderWidth / Math.SQRT2,
+    );
+    ctx.fillStyle = borderColor;
+    ctx.fill("evenodd");
   }
 }
 
@@ -88,7 +94,6 @@ export function paint(
 export function draw(ctx, x, y, width, height, radius) {
   const iterator = points(x, y, width, height, radius);
   const { x: initialX, y: initialY } = iterator.next().value ?? { x: 0, y: 0 };
-  ctx.beginPath();
   ctx.moveTo(initialX, initialY);
   for (const { x, y } of iterator) {
     ctx.lineTo(x, y);
