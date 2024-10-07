@@ -15,36 +15,6 @@ export * from "./drawing.mjs";
  * @param {string} workletUrl URL of the squircle paint worklet
  */
 export function register(workletUrl) {
-  if (!CSS.registerProperty) return;
-
-  CSS.registerProperty({
-    name: "--squircle-background-color",
-    syntax: "<color>",
-    inherits: false,
-    initialValue: "transparent",
-  });
-
-  CSS.registerProperty({
-    name: "--squircle-border-radius",
-    syntax: "<length>",
-    inherits: false,
-    initialValue: "0px",
-  });
-
-  CSS.registerProperty({
-    name: "--squircle-border-width",
-    syntax: "<length>",
-    inherits: false,
-    initialValue: "0px",
-  });
-
-  CSS.registerProperty({
-    name: "--squircle-border-color",
-    syntax: "<color>",
-    inherits: false,
-    initialValue: "transparent",
-  });
-
   /* @ts-ignore */
   if (!CSS.paintWorklet) return;
   /* @ts-ignore */
@@ -71,7 +41,8 @@ export function register(workletUrl) {
  * @param {string} name
  */
 export function createCustomElement(name) {
-  const isPaintSupported = CSS.supports("background", "paint(id)");
+  /* @ts-ignore */
+  const isPaintSupported = !!CSS.paintWorklet;
   const component = isPaintSupported ? SquircleHoudini : SquircleCanvas;
   customElements.define(name, component);
 }

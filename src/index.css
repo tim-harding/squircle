@@ -1,6 +1,6 @@
 .squircle {
-  border-radius: var(--squircle-radius);
-  background-color: var(--squircle-fill);
+  background: var(--squircle-background-color);
+  border-radius: var(--squircle-border-radius);
   border-color: var(--squircle-border-color);
   border-width: var(--squircle-border-width);
   border-style: solid;
@@ -8,10 +8,34 @@
 
 @supports (background: paint(id)) {
   .squircle {
+    background: paint(squircle);
+    border-radius: initial;
     border-color: initial;
     border-width: initial;
-    border-radius: initial;
     border-style: initial;
-    background: paint(squircle);
   }
+}
+
+@property --squircle-background-color {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --squircle-border-color {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --squircle-border-radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --squircle-border-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
 }
