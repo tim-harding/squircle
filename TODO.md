@@ -1,4 +1,4 @@
-- [ ] Move web component to framework
+- [ ] Update readme for API updates
 
 - [ ] Support gradients
 
