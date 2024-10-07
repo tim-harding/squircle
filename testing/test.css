@@ -7,15 +7,16 @@ body {
 }
 
 .rounded {
-  border-radius: var(--radius);
-  background-color: white;
-  border: 8px solid black;
+  border-radius: var(--squircle-radius);
+  background-color: var(--squircle-fill);
+  border-width: var(--squircle-border-width);
+  border-color: var(--squircle-border-color);
+  border-style: solid;
 }
 
 .radius-1rem {
-  --radius: 1rem;
-  --squircle-radius: var(--radius);
-  --squircle-fill: white;
+  --squircle-radius: 1rem;
+  --squircle-fill: hsla(180deg 50% 50% / 0.5);
   --squircle-border-width: 8px;
-  --squircle-border-color: black;
+  --squircle-border-color: transparent;
 }

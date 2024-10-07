@@ -29,14 +29,14 @@ export function register(workletUrl) {
   CSS.registerProperty({
     name: "--squircle-fill",
     syntax: "<color>",
-    inherits: true,
+    inherits: false,
     initialValue: "transparent",
   });
 
   CSS.registerProperty({
     name: "--squircle-border-color",
     syntax: "<color>",
-    inherits: true,
+    inherits: false,
     initialValue: "transparent",
   });
 
@@ -76,7 +76,7 @@ export function path(x, y, width, height, radius) {
  * @param {number} height Rectangle height
  * @param {number} radius Border radius
  */
-export function paint(ctx, x, y, width, height, radius) {
+export function draw(ctx, x, y, width, height, radius) {
   const iterator = points(x, y, width, height, radius);
   const { x: initialX, y: initialY } = iterator.next().value ?? { x: 0, y: 0 };
   ctx.beginPath();

@@ -1,4 +1,14 @@
-import { paint } from "./index.mjs";
+import { draw } from "./index.mjs";
+
+// The properties `--squircle-fill` and `--squircle-border-color` are already
+// parsed by the CSS engine and come to us in one of two forms:
+//
+// - rgba(64, 191, 191, 0.5)
+// - rgb(64, 191, 191)
+//
+// We want to skip drawing the fill or border only if it is fully transparent,
+// which this regex checks for.
+const TRANSPARENT = /^rgba\(\d+, \d+, \d+, 0\)$/;
 
 /**
  * @typedef {CanvasRenderingContext2D} PaintRenderingContext2D
@@ -36,26 +46,30 @@ class Squircle {
     const fill = propString(props, "--squircle-fill");
     const borderColor = propString(props, "--squircle-border-color");
 
-    // TODO: Checking for "transparent" doesn't cover e.g. rgb(0 0 0 / 0)
-    const isBorderVisible = borderWidth !== 0 && borderColor !== "transparent";
-    if (isBorderVisible) {
-      paint(ctx, 0, 0, width, height, radius);
-      ctx.fillStyle = borderColor;
+    const isFillTransparent = TRANSPARENT.test(fill);
+    const isFillVisible = !isFillTransparent;
+
+    const isBorderTransparent = TRANSPARENT.test(borderColor);
+    const isBorderVisible = !isBorderTransparent && borderWidth > 0;
+
+    draw(
+      ctx,
+      borderWidth / 2,
+      borderWidth / 2,
+      width - borderWidth,
+      height - borderWidth,
+      radius - borderWidth / 2 / Math.SQRT2,
+    );
+
+    if (isFillVisible) {
+      ctx.fillStyle = fill;
       ctx.fill();
     }
 
-    const isFillVisible = fill !== "transparent";
-    if (isFillVisible) {
-      paint(
-        ctx,
-        borderWidth,
-        borderWidth,
-        width - borderWidth * 2,
-        height - borderWidth * 2,
-        radius - borderWidth / Math.SQRT2,
-      );
-      ctx.fillStyle = fill;
-      ctx.fill();
+    if (isBorderVisible) {
+      ctx.lineWidth = borderWidth;
+      ctx.strokeStyle = borderColor;
+      ctx.stroke();
     }
   }
 }
