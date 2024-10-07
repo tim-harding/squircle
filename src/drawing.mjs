@@ -61,9 +61,12 @@ export function paint(
   const isBorderVisible = borderWidth > 0 && !isBorderTransparent;
 
   draw(ctx, x, y, width, height, radius);
+  ctx.clip();
 
   if (isFillVisible) {
     ctx.fillStyle = fill;
+    ctx.beginPath();
+    ctx.rect(0, 0, width, height);
     ctx.fill();
   }
 
