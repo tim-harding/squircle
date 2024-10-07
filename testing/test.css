@@ -22,4 +22,5 @@ body {
 
 #clipped {
   background-color: black;
+  --squircle-radius: 32px;
 }

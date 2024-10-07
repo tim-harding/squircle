@@ -8,19 +8,6 @@
  * @property {number} m21
  * @property {number} m12
  * @property {number} m22
- *
- * @typedef {Object} CornerArguments
- * @property {number} segments Number of line segments
- * @property {number} indexToParameter Scalar to convert from an index in
- * 0..segments+1 to a parameter in 0..pi/2 for the parametric superellipse
- * equation
- * @property {number} exponent Exponent for the parametric superellipse equation
- *
- * @typedef {{ w: number, h: number, l: number, r: number}} ClampedArguments
- * @property {number} w Rectangle width
- * @property {number} h Rectangle height
- * @property {number} l Half length of the shorter rectangle side
- * @property {radius} r Corner radius
  */
 
 /**
@@ -84,31 +71,22 @@ export function path(x, y, width, height, radius) {
 }
 
 /**
- * @param {number} x Top-left corner x-coordinate
- * @param {number} y Top-left corner y-coordinate
- * @param {number} width Rectangle width
- * @param {number} height Rectangle height
- * @param {number} radius Border radius
  * @returns {string}
  */
-export function polygon(x, y, width, height, radius) {
-  const { w, h, l, r } = clampArguments(width, height, radius);
-  const { segments, exponent, indexToParameter } = cornerParameters(r, l);
+export function polygon() {
+  const segments = 16;
   let q0 = [];
   let q1 = [];
   let q2 = [];
   let q3 = [];
-  for (const { x: x0, y: y0 } of cornerPoints(
-    segments,
-    indexToParameter,
-    exponent,
-  )) {
-    const x = ((1 - x0) * radius).toFixed(2);
-    const y = ((1 - y0) * radius).toFixed(2);
-    const r = `calc(100% - ${x}px)`;
-    const l = `calc(0% + ${x}px)`;
-    const b = `calc(100% - ${y}px)`;
-    const t = `calc(0% + ${y}px)`;
+  for (let i = 0; i < segments + 1; i++) {
+    const u = ((i / segments) * Math.PI) / 2;
+    const x = 1 - Math.cos(u);
+    const y = 1 - Math.sin(u);
+    const r = `calc(100% - var(--squircle-radius) * ${x})`;
+    const l = `calc(0%   + var(--squircle-radius) * ${x})`;
+    const b = `calc(100% - var(--squircle-radius) * ${y})`;
+    const t = `calc(0%   + var(--squircle-radius) * ${y})`;
 
     q0.push(`${r} ${b}`);
     q1.push(`${l} ${b}`);
@@ -152,8 +130,13 @@ export function paint(ctx, x, y, width, height, radius) {
  * @yields {Point}
  */
 export function* points(x, y, width, height, radius) {
-  const { w, h, l, r } = clampArguments(width, height, radius);
-  const { segments, exponent, indexToParameter } = cornerParameters(r, l);
+  const w = Math.max(0, width);
+  const h = Math.max(0, height);
+  const l = Math.min(w, h) / 2;
+  const r = Math.max(0, Math.min(radius, l));
+  const segments = Math.ceil(Math.sqrt(r)) * 4;
+  const exponent = r / l;
+  const indexToParameter = Math.PI / 2 / segments;
 
   for (let i = 0; i < 4; i++) {
     const { x: sideX, y: sideY } = side(i);
@@ -171,32 +154,6 @@ export function* points(x, y, width, height, radius) {
       yield { x, y };
     }
   }
-}
-
-/**
- * @param {number} width Rectangle width
- * @param {number} height Rectangle height
- * @param {number} radius Corner radius
- * @returns {ClampedArguments}
- */
-function clampArguments(width, height, radius) {
-  const w = Math.max(0, width);
-  const h = Math.max(0, height);
-  const l = Math.min(w, h) / 2;
-  const r = Math.max(0, Math.min(radius, l));
-  return { w, h, l, r };
-}
-
-/**
- * @param {number} r Corner radius
- * @param {number} l Half length of shorter side
- * @returns {CornerArguments}
- */
-function cornerParameters(r, l) {
-  const segments = Math.ceil(Math.sqrt(r)) * 4;
-  const exponent = r / l;
-  const indexToParameter = Math.PI / 2 / segments;
-  return { segments, exponent, indexToParameter };
 }
 
 /**
