@@ -1,4 +1,4 @@
-import { paint } from "./index.mjs";
+import { paint } from "./drawing.mjs";
 
 /**
  * @typedef {CanvasRenderingContext2D} PaintRenderingContext2D
@@ -17,8 +17,8 @@ class Squircle {
 
   static get inputProperties() {
     return [
-      "--squircle-radius",
-      "--squircle-fill",
+      "--squircle-background-color",
+      "--squircle-border-radius",
       "--squircle-border-width",
       "--squircle-border-color",
     ];
@@ -31,9 +31,9 @@ class Squircle {
    */
   paint(ctx, size, props) {
     const { width, height } = size;
-    const radius = propUnit(props, "--squircle-radius");
+    const fill = propString(props, "--squircle-background-color");
+    const radius = propUnit(props, "--squircle-border-radius");
     const borderWidth = propUnit(props, "--squircle-border-width");
-    const fill = propString(props, "--squircle-fill");
     const borderColor = propString(props, "--squircle-border-color");
     paint(ctx, 0, 0, width, height, radius, borderWidth, fill, borderColor);
   }
