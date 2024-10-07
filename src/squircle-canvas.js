@@ -1,4 +1,4 @@
-import { paint } from "./index.mjs";
+import { paint } from "./drawing.mjs";
 
 export default class SquircleCanvas extends HTMLElement {
   _radius = 0;
