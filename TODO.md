@@ -6,3 +6,5 @@
 - [ ] Corner click offset
 - [ ] Footer
 - [ ] Fade in on load
+- [ ] Detect theme preference
+- [ ] Hover states

@@ -262,7 +262,7 @@ input[type="color"] {
 body {
   display: grid;
   grid-template-rows: max-content 1fr;
-  grid-template-columns: 1fr 1rem minmax(0rem, 52rem) 1rem 1fr;
+  grid-template-columns: 1fr 2rem minmax(0rem, 52rem) 2rem 1fr;
   grid-template-areas:
     "header header header header header"
     ". . main . .";
@@ -276,6 +276,7 @@ body {
     --rosewater --flamingo --pink --mauve --red --maroon --peach --yellow
     --green --teal --sky --sapphire --blue --lavender;
   transition-duration: 250ms;
+  overflow-x: hidden;
 }
 
 header {
@@ -393,7 +394,7 @@ th-drag-area {
 
 th-control {
   display: grid;
-  grid-template-rows: max-content 1.5rem;
+  grid-template-rows: 2rem 1.5rem;
   grid-template-columns: 1fr;
   grid-template-areas: "label" "input";
   align-items: center;
@@ -435,13 +436,26 @@ th-corner {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 740px) {
   th-tester {
-    grid-template-rows: minmax(16rem, 1fr) min-content;
-    grid-template-areas: "drag-area" "controls";
+    grid-template-columns: 1fr;
+    grid-template-rows: 32rem min-content;
+    grid-template-areas: "drag-area" "form";
 
     & > form {
-      grid-template-columns: max-content 1fr max-content 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      row-gap: 1rem;
+      column-gap: 2rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  th-tester {
+    & > form {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
     }
   }
 }

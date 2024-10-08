@@ -46,21 +46,23 @@ export class DragArea extends HTMLElement {
           this._width = width;
           this._height = height;
         }
+
         this._l = Math.min(this._l, this._width);
         this._r = Math.min(this._r, this._width);
         this._t = Math.min(this._t, this._height);
         this._b = Math.min(this._b, this._height);
 
+        this._updateSquircleCorners();
+
         if (this._topLeft !== null) {
           this._topLeft.x = `${this._l}px`;
           this._topLeft.y = `${this._t}px`;
         }
+
         if (this._bottomRight !== null) {
           this._bottomRight.x = `${this._r}px`;
           this._bottomRight.y = `${this._b}px`;
         }
-
-        this._updateSquircleCorners();
       }
     });
     observer.observe(this);
