@@ -1,9 +1,0 @@
-# bundle install
-# bundle update
-# bundle exec jekyll serve
-#
-# Due to https://github.com/rubygems/rubygems/issues/6272
-# you may have to run `bundle install` as sudo.
-
-source "https://rubygems.org"
-gem "github-pages", group: :jekyll_plugins

@@ -1,18 +1,9 @@
----
----
-
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="{{ '/assets/svg/favicon.svg' | relative_url }}" />
-
-    <script type="module">
-      import("{{ '/assets/js/loading.js' | relative_url }}").then(({ load }) =>
-        load(),
-      );
-    </script>
 
     <link
       href="https://unpkg.com/superellipse-squircle@latest/index.css"
@@ -142,5 +133,7 @@
         </form>
       </th-tester>
     </main>
+
+    <script type="module" src="/main.js"></script>
   </body>
 </html>

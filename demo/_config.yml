@@ -1,9 +1,0 @@
-title: Squircle Demo
-email: tim@timharding.co
-description: >-
-  Demo site for the tim-harding/squircle GitHub repository.
-baseurl: "/squircle"
-url: "https://tim-harding.github.io"
-github_username: tim-harding
-plugins:
-exclude:
