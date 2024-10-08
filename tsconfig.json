@@ -17,8 +17,6 @@
     "isolatedModules": true,
     "strict": true,
     "allowJs": true,
-    "checkJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true
+    "checkJs": true
   }
 }

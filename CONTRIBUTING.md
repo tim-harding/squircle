@@ -8,28 +8,39 @@ cd squircle
 npm install
 ```
 
-## Test
+## Library
 
-To serve a test page and watch for changes:
+To serve a test page:
 
 ```sh
-npm run serve
+npm run dev
 ```
 
-The test page is available at `http://localhost:8080`.
-
-## Build
-
-To build the package into `./package`:
+To build the library for production:
 
 ```sh
 npm run build
 ```
 
-## Publish
+To publish the library to NPM:
+
+```sh
+./publish.sh
+```
+
+### Publish
 
 ```sh
 cd package
 npm publish
 cd ..
+```
+
+## GitHub Pages demo
+
+The GitHub Actions workflow automatically builds and deploys the site after
+pushing to `main`. To serve the website for local development, use
+
+```sh
+npm run pages-dev
 ```

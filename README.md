@@ -9,53 +9,69 @@ magic](https://tim-harding.github.io/squircle/).
 
 ### CSS
 
-First, initialize the library. Unlike most JavaScript, the worklet cannot be
-imported as a module, so the worklet file must be served at the provided URL.
-You can either use the minified files from [unpkg](https://unpkg.com/) or use
-your bundler to get a URL.
+First, register the squircle web worker. 
 
 ```js
-import url from "superellipse-squircle/worklet.min.js?url"; // Vite
-import url from "url:superellipse-squircle/worklet.min.js"; // Parcel & WMR
-import url from "omt:superellipse-squircle/worklet.min.js"; // Rollup
-import url from "url-loader!:superellipse-squircle/worklet.min.js"; // WebPack 4 & 5
-const url = "https://unpkg.com/superellipse-squircle@0.1.2/worklet.min.js"; // unpkg
-
 import { register } from "superellipse-squircle";
-register(url);
+register();
+```
 
-import "superellipse-squircle/index.css"; // Optional
+Now you can use `paint(squircle)` as a image source in CSS. Usually that will be
+`background: paint(squircle);`, in which case you can use the provided
+`squircle` class. This includes a fallback to normal rounded rectangles when CSS
+Houdini isn't available. 
+
+```html
 <div
   class="squircle"
   style="
-    --squircle-radius: 1rem;
-    --squircle-fill: black;"
+    --squircle-border-radius: 1rem;
+    --squircle-background-color: black;"
 ></div>;
 ```
 
-Linking or importing the provided CSS creates a `squircle` class with fallbacks
-for unsupported browsers. Alternatively, use the image source directly in your
-CSS. For example, try `mask-image: paint(squircle);` to create a squircle layer
-mask. At time of writing, only Chromium-based browsers support the Paint API, so
-use `@supports (paint(id)) {...}` to check for support. See [Can I
-Use](https://caniuse.com/css-paint-api) for updates.
-
 These properties control the squircle drawing:
 
-| Property                  | Equivalent         |
-| ------------------------- | ------------------ |
-| `--squircle-radius`       | `border-radius`    |
-| `--squircle-fill`         | `background-color` |
-| `--squircle-border-width` | `border-width`     |
-| `--squircle-border-color` | `border-color`     |
+| Property                      | Equivalent         |
+| ----------------------------- | ------------------ |
+| `--squircle-background-color` | `background-color` |
+| `--squircle-border-radius`    | `border-radius`    |
+| `--squircle-border-width`     | `border-width`     |
+| `--squircle-border-color`     | `border-color`     |
 
-To reduce verbosity, consider aliasing the CSS properties. For example, to use
-`--radius` instead of `--squircle-radius`:
+To reduce the verbosity, consider using aliases:
 
 ```css
 .squircle {
-  --squircle-radius: var(--radius);
+  --squircle-background-color: var(--fill);
+  --squircle-border-radius: var(--radius);
+  --squircle-border-width: var(--border-width);
+  --squircle-border-color: var(--border-color);
 }
+```
+
+### Web component
+
+The `squircle` class falls back to normal rounded rectangles on browsers that
+don't support the Paint API, which is [most of
+them](https://caniuse.com/css-paint-api) at time of writing. To guarantee
+squircles on all platforms, you can use the web component instead. It will add
+an HTML5 `<canvas>` to draw with when the Paint API isn't available.
+
+```js
+import { createCustomElement } from 'superellipse-squircle';
+createCustomElement();
+```
+
+```html
+<th-squircle
+  background-color="rgba(64, 128, 192, 0.5)"
+  border-radius="16"
+  border-width="4"
+  border-color="black"
+>
+  Hello, world!
+</th-squircle>
 ```
 
 ### Canvas
@@ -64,6 +80,30 @@ You can also use the squircle drawing code directly in an HTML canvas. Import
 the `paint` function to draw into a canvas context.
 
 ```js
-import { paint } from "superellipse-squircle";
-paint(canvasContext, posX, posY, width, height, borderRadius);
+import { draw, paint } from "superellipse-squircle";
+
+// Just create a path
+draw(canvasContext, posX, posY, width, height, borderRadius);
+
+// Draw the squircle with stroke and fill
+paint(canvasContext, posX, posY, width, height, borderRadius, 
+  borderWidth, fillColor, borderColor);
+```
+
+### SVG
+
+You can create a string that is compatible with SVG `path` elements. 
+
+```svg
+<svg viewBox="0 0 512 512">
+  <path id="my-path" />
+</svg>
+```
+
+```js
+import { path } from "superellipse-squircle";
+
+const d = path(0, 0, 512, 512, myRadius);
+const path = document.getElementById('my-path');
+path.d = d;
 ```

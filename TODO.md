@@ -1,3 +1,4 @@
+- Use slots for Canvas web component
 - Update readme for API updates
 - Touch support for corners
 - Title gradient
