@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Squircle</title>
+    <link rel="stylesheet" href="/testing/test.css" />
+    <link rel="stylesheet" href="/src/index.css" />
+    <style>
+      body {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 16rem 16rem;
+        background-color: grey;
+      }
+
+      .rounded {
+        border-radius: var(--squircle-border-radius);
+        border-width: var(--squircle-border-width);
+        background-color: var(--squircle-background-color);
+        border-color: var(--squircle-border-color);
+        border-style: solid;
+      }
+
+      .radius-1rem {
+        --squircle-border-radius: 2rem;
+        --squircle-border-width: 0.5rem;
+        --squircle-background-color: hsla(120deg 50% 50% / 0.5);
+        --squircle-border-color: hsla(240deg 50% 50% / 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="squircle radius-1rem"></div>
+    <div class="rounded radius-1rem"></div>
+    <svg viewBox="0 0 512 256" width="512" height="256">
+      <path id="squircle-svg" fill="black"></path>
+    </svg>
+    <my-squircle
+      background-color="rgb(255, 127, 63)"
+      border-radius="16"
+      border-width="4"
+      border-color="rgb(63, 127, 255)"
+    ></my-squircle>
+    <script type="module">
+      import { register, path, createCustomElement } from "/src/index.mjs";
+
+      register("/src/worklet.mjs");
+      createCustomElement("my-squircle");
+
+      const svg = document.getElementById("squircle-svg");
+      const d = path(0, 0, 512, 256, 32);
+      svg.setAttribute("d", d);
+    </script>
+  </body>
+</html>
