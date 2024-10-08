@@ -22,9 +22,7 @@ async function loadComponents() {
 }
 
 async function loadPaintWorklet() {
-  const { register, createCustomElement } = await import(
-    "superellipse-squircle"
-  );
-  register("superellipse-squircle/worklet.mjs");
+  const { register, createCustomElement } = await import("@");
+  register("@/worklet.mjs");
   createCustomElement("th-squircle");
 }
