@@ -1,7 +1,6 @@
 ---
 ---
 
-/*
 @property --subtext-1 {
   syntax: "<color>";
   inherits: true;
@@ -127,7 +126,6 @@
   inherits: true;
   initial-value: transparent;
 }
-*/
 
 :where(:not(html, head *, svg *)) {
   all: unset;
@@ -156,8 +154,6 @@ th-theme-button {
 }
 
 input[type="range"] {
-  all: unset;
-
   &::-moz-range-thumb,
   &::-webkit-slider-thumb {
     all: unset;
@@ -176,13 +172,12 @@ input[type="range"] {
     border-radius: calc(0.375rem / 2);
     background-color: var(--surface-0);
     border: 1px solid var(--surface-1);
-    transition: background-color border-color 250ms;
   }
 }
 
 input[type="color"] {
-  all: unset;
   width: 100%;
+  border-radius: 0.25rem;
 
   &::-webkit-color-swatch-wrapper {
     all: unset;
@@ -267,7 +262,7 @@ input[type="color"] {
 body {
   display: grid;
   grid-template-rows: max-content 1fr;
-  grid-template-columns: 1fr 1rem minmax(0rem, 48rem) 1rem 1fr;
+  grid-template-columns: 1fr 1rem minmax(0rem, 52rem) 1rem 1fr;
   grid-template-areas:
     "header header header header header"
     ". . main . .";
@@ -287,7 +282,7 @@ header {
   grid-area: header;
   display: grid;
   grid-template-columns: [title-start] max-content 1fr max-content [title-end];
-  grid-template-rows: [title-start] 8rem [title-end];
+  grid-template-rows: [title-start] 9.5rem [title-end];
   grid-template-areas: "banner . theme-button";
 }
 
@@ -298,7 +293,7 @@ h1 {
   font-size: 3rem;
   width: 100%;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 th-theme-button {
@@ -308,13 +303,12 @@ th-theme-button {
   grid-template-columns: 100% 100%;
   place-content: stretch;
   overflow: hidden;
-  width: 2rem;
-  height: 2rem;
-  margin: 0.5rem 0.5rem 0rem 0rem;
-  --squircle-background-color: var(--surface-0);
-  --squircle-border-width: 2px;
-  --squircle-border-color: var(--surface-1);
-  --squircle-border-radius: 4px;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: 1rem 1rem 0rem 0rem;
+  background-color: var(--surface-0);
+  border: 2px solid var(--surface-1);
+  border-radius: 0.25rem;
 
   & > div {
     display: grid;
@@ -344,7 +338,6 @@ th-theme-button {
   width: 5rem;
   height: 5rem;
   clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
-  transition: background-color 250ms;
 }
 
 .github-logo {
@@ -353,7 +346,6 @@ th-theme-button {
   aspect-ratio: 98/96;
   transform: rotate(-45deg);
   fill: var(--base);
-  transition: fill 250ms;
 }
 
 main {
@@ -373,16 +365,18 @@ th-squircle {
 th-tester {
   grid-area: tester;
   display: grid;
-  grid-template-rows: minmax(16rem, 1fr) min-content;
-  grid-template-areas: "drag-area" "controls";
+  grid-template-rows: minmax(32rem, 1fr);
+  grid-template-columns: 1fr 16rem;
+  grid-template-areas: "drag-area form";
+  gap: 2rem;
 
   & > form {
+    grid-area: form;
     display: grid;
-    grid-template-columns: max-content 1fr max-content 1fr;
-    column-gap: 2rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, max-content);
     row-gap: 1rem;
     grid-auto-rows: max-content;
-    padding-top: 1rem;
   }
 }
 
@@ -397,6 +391,25 @@ th-drag-area {
   }
 }
 
+th-control {
+  display: grid;
+  grid-template-rows: max-content 1.5rem;
+  grid-template-columns: 1fr;
+  grid-template-areas: "label" "input";
+  align-items: center;
+
+  & > label {
+    grid-area: label;
+    font-weight: 500;
+  }
+
+  & > input {
+    grid-area: input;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 th-corner {
   position: absolute;
   display: grid;
@@ -407,38 +420,28 @@ th-corner {
 
   &:hover::after {
     transform: scale(1.5);
+    background-color: var(--sky);
   }
 
   &::after {
     content: "";
-    background-color: blue;
-    opacity: 20%;
+    background-color: var(--overlay-2);
+    opacity: 30%;
     border-radius: 50%;
     width: 1.5rem;
     height: 1.5rem;
-    transition-property: transform;
+    transition-property: transform background-color;
     transition-duration: 250ms;
   }
 }
 
-th-control {
-  display: grid;
-  grid-column-end: span 2;
-  grid-template-columns: subgrid;
-  align-items: center;
+@media (max-width: 500px) {
+  th-tester {
+    grid-template-rows: minmax(16rem, 1fr) min-content;
+    grid-template-areas: "drag-area" "controls";
 
-  & > label {
-    font-weight: 500;
-  }
-
-  & > input {
-    &[type="range"] {
-      width: 100%;
-      accent-color: var(--rosewater);
-    }
-
-    &[type="color"] {
-      height: 100%;
+    & > form {
+      grid-template-columns: max-content 1fr max-content 1fr;
     }
   }
 }

@@ -29,13 +29,19 @@
       rel="stylesheet"
     />
 
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+
     <title>Squircle Demo</title>
   </head>
 
   <body class="theme-latte">
     <header>
       <h1>Squircle</h1>
-      <th-theme-button class="squircle">
+      <th-theme-button>
         <span class="sr">Theme toggle</span>
         <div>
           <svg
@@ -73,6 +79,7 @@
           width="98"
           height="96"
           xmlns="http://www.w3.org/2000/svg"
+          fill="white"
         >
           <path
             fill-rule="evenodd"
@@ -103,15 +110,6 @@
             />
           </th-control>
 
-          <th-control aspect="background-color">
-            <label for="tester-input-background-color">Fill</label>
-            <input
-              id="tester-input-background-color"
-              type="color"
-              value="#7287fd"
-            />
-          </th-control>
-
           <th-control aspect="border-width">
             <label for="tester-input-border-radius">Border width</label>
             <input
@@ -129,6 +127,15 @@
               id="tester-input-border-color"
               type="color"
               value="#1e66f5"
+            />
+          </th-control>
+
+          <th-control aspect="background-color">
+            <label for="tester-input-background-color">Fill</label>
+            <input
+              id="tester-input-background-color"
+              type="color"
+              value="#7287fd"
             />
           </th-control>
         </form>
