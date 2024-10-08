@@ -6,11 +6,11 @@
     "moduleResolution": "nodenext",
     "module": "esnext",
     "target": "esnext",
+    "isolatedModules": true,
     "strict": true,
     "allowJs": true,
     "checkJs": true,
     "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "package"
+    "emitDeclarationOnly": true
   }
 }
