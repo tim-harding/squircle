@@ -1,21 +1,11 @@
 {
   "name": "superellipse-squircle",
   "version": "0.1.12",
-  "private": true,
-  "main": "index.mjs",
+  "type": "module",
+  "main": "src/index.js",
   "description": "Smoothest CSS squircles south of Saskatchewan",
+  "homepage": "https://tim-harding.github.io/squircle",
   "license": "MIT",
-  "scripts": {
-    "serve": "node scripts/serve.mjs",
-    "build": "scripts/build.sh"
-  },
-  "keywords": [
-    "squircle",
-    "houdini",
-    "paint",
-    "css",
-    "superellipse"
-  ],
   "author": {
     "name": "Tim Harding",
     "email": "tim@timharding.co",
@@ -25,7 +15,6 @@
     "type": "git",
     "url": "git+https://github.com/tim-harding/squircle.git"
   },
-  "homepage": "https://tim-harding.github.io/squircle",
   "bugs": {
     "url": "https://github.com/tim-harding/squircle/issues",
     "email": "tim@timharding.co"
@@ -34,12 +23,19 @@
     "type": "GitHub Sponsors",
     "url": "https://github.com/sponsors/tim-harding"
   },
+  "keywords": [
+    "squircle",
+    "houdini",
+    "paint",
+    "css",
+    "superellipse"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "devDependencies": {
-    "@fsouza/prettierd": "^0.25.3",
-    "live-server": "^1.2.2",
-    "prettier": "^3.3.3",
-    "rollup": "^4.24.0",
-    "typescript": "^5.6.2",
-    "uglify-js": "^3.19.3"
+    "vite": "^5.4.8"
   }
 }
