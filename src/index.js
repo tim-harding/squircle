@@ -5,12 +5,6 @@ import styles from "@/index.css?inline";
 
 export * from "./drawing.js";
 
-/**
- * @typedef {Object} Point
- * @property {number} x x-coordinate
- * @property {number} y y-coordinate
- */
-
 function registerInner() {
   let isRegistered = false;
   return function() {
