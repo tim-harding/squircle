@@ -1,5 +1,4 @@
 - [ ] Update readme for API updates
-- [ ] Favicon
 - [ ] Touch support
 - [ ] Title gradient
 - [ ] Animation

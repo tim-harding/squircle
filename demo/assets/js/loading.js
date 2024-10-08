@@ -28,3 +28,11 @@ async function loadPaintWorklet() {
   register("https://unpkg.com/superellipse-squircle@0.1.11/worklet.min.js");
   createCustomElement("th-squircle");
 }
+
+import { path } from "https://unpkg.com/superellipse-squircle@latest/index.min.js";
+
+window.addEventListener("load", () => {
+  const svg = document.getElementById("arst");
+  const d = path(0, 0, 16, 16, 6);
+  console.log(d);
+});
