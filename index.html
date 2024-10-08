@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Squircle</title>
-    <link rel="stylesheet" href="/testing/test.css" />
-    <link rel="stylesheet" href="/src/index.css" />
+
     <style>
       body {
         display: grid;
@@ -44,10 +43,11 @@
       border-width="4"
       border-color="rgb(63, 127, 255)"
     ></my-squircle>
-    <script type="module">
-      import { register, path, createCustomElement } from "/src/index.mjs";
 
-      register("/src/worklet.mjs");
+    <script type="module">
+      import { register, path, createCustomElement } from "@";
+
+      register();
       createCustomElement("my-squircle");
 
       const svg = document.getElementById("squircle-svg");

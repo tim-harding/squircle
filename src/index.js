@@ -1,5 +1,7 @@
-import SquircleHoudini from "./squircle-houdini.js";
-import SquircleCanvas from "./squircle-canvas.js";
+import SquircleHoudini from "@/squircle-houdini";
+import SquircleCanvas from "@/squircle-canvas";
+import workletUrl from "@/worklet.js?url";
+import styles from "@/index.css?inline";
 
 export * from "./drawing.js";
 
@@ -11,10 +13,12 @@ export * from "./drawing.js";
 
 /**
  * Register the squircle CSS Paint worklet.
- *
- * @param {string} workletUrl URL of the squircle paint worklet
  */
-export function register(workletUrl) {
+export function register() {
+  const style = document.createElement("style");
+  style.textContent = styles;
+  document.head.append(style);
+
   /* @ts-ignore */
   if (!CSS.paintWorklet) return;
   /* @ts-ignore */

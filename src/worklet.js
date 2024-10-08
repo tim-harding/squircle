@@ -1,4 +1,4 @@
-import { paint } from "./drawing.js";
+import { paint } from "@/drawing";
 
 /**
  * @typedef {CanvasRenderingContext2D} PaintRenderingContext2D
