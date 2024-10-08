@@ -12,6 +12,7 @@ async function loadComponents() {
     import("./drag-area.js"),
     import("./control.js"),
     import("./corner.js"),
+    import("./theme-button.js"),
   ].map((promise) =>
     promise.then(({ NAME, Component }) => {
       customElements.define(NAME, Component);
