@@ -1,5 +1,5 @@
-import { loaded } from "./loading.js";
-import { listenPassive } from "./shared.js";
+import { loaded } from "./js/loading.jss";
+import { listenPassive } from "../shared.js.js";
 
 export class Control extends HTMLElement {
   #aspect = "";

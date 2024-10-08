@@ -1,5 +1,5 @@
-import { listenPassive } from "./shared.js";
-import { loaded } from "./loading.js";
+import { listenPassive } from "../shared.js.js";
+import { loaded } from "./js/loading.jss";
 
 export class Corner extends HTMLElement {
   #isPressed = false;

@@ -1,5 +1,5 @@
-import { listenPassive } from "./shared.js";
-import { Corner } from "./corner.js";
+import { listenPassive } from "../shared.js.js";
+import { Corner } from "../corner.js.js";
 
 const SIDE_OFFSET = 32;
 
