@@ -3,15 +3,19 @@ import { Corner } from "./corner.js";
 
 const SIDE_OFFSET = 32;
 
-// TODO: Resize observer and move handler accordingly
-
 export class DragArea extends HTMLElement {
   _l = SIDE_OFFSET;
   _r = 0;
   _t = SIDE_OFFSET;
   _b = 0;
+  _width = 0;
+  _height = 0;
   /** @type {HTMLElement?} */
   _squircle = null;
+  /** @type {Corner?} */
+  _topLeft = null;
+  /** @type {Corner?} */
+  _bottomRight = null;
 
   constructor() {
     super();
@@ -22,11 +26,44 @@ export class DragArea extends HTMLElement {
 
   connectedCallback() {
     const { clientWidth: w, clientHeight: h } = this;
+    this._width = w;
+    this._height = h;
     this._r = w - SIDE_OFFSET;
     this._b = h - SIDE_OFFSET;
 
     this._squircle = this.querySelector("th-squircle");
     this._updateSquircleCorners();
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const sizes = entry.borderBoxSize ?? entry.contentBoxSize;
+        if (sizes) {
+          const [{ inlineSize, blockSize }] = sizes;
+          this._width = inlineSize;
+          this._height = blockSize;
+        } else {
+          const { width, height } = entry.contentRect;
+          this._width = width;
+          this._height = height;
+        }
+        this._l = Math.min(this._l, this._width);
+        this._r = Math.min(this._r, this._width);
+        this._t = Math.min(this._t, this._height);
+        this._b = Math.min(this._b, this._height);
+
+        if (this._topLeft !== null) {
+          this._topLeft.x = `${this._l}px`;
+          this._topLeft.y = `${this._t}px`;
+        }
+        if (this._bottomRight !== null) {
+          this._bottomRight.x = `${this._r}px`;
+          this._bottomRight.y = `${this._b}px`;
+        }
+
+        this._updateSquircleCorners();
+      }
+    });
+    observer.observe(this);
   }
 
   /**
@@ -40,17 +77,14 @@ export class DragArea extends HTMLElement {
       case "top-left": {
         corner.x = `${this._l}px`;
         corner.y = `${this._t}px`;
+        this._topLeft = corner;
         break;
       }
 
       case "bottom-right": {
         corner.x = `${this._r}px`;
         corner.y = `${this._b}px`;
-        break;
-      }
-
-      default: {
-        console.warn(`Unexpected corner side: ${corner.side}`);
+        this._bottomRight = corner;
         break;
       }
     }
