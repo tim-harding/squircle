@@ -23,6 +23,6 @@ async function loadComponents() {
 
 async function loadPaintWorklet() {
   const { register, createCustomElement } = await import("@");
-  register("@/worklet.mjs");
+  register();
   createCustomElement("th-squircle");
 }

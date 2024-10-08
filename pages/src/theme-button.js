@@ -1,4 +1,4 @@
-import { listenPassive } from "../shared.js.js";
+import { listenPassive } from "pages/shared";
 
 class ThemeButton extends HTMLElement {
   _isLight = true;

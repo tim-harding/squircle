@@ -1,6 +1,6 @@
-import { listenPassive } from "../shared.js.js";
-import "../control.js.js";
-import "./js/drag-area.jss";
+import { listenPassive } from "pages/shared";
+import "pages/control";
+import "pages/drag-area";
 
 // TODO: Rounded rect toggle
 
