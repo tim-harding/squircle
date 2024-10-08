@@ -23,8 +23,8 @@ async function loadComponents() {
 
 async function loadPaintWorklet() {
   const { register, createCustomElement } = await import(
-    "https://unpkg.com/superellipse-squircle@latest/index.min.js"
+    "superellipse-squircle"
   );
-  register("https://unpkg.com/superellipse-squircle@0.1.11/worklet.min.js");
+  register("superellipse-squircle/worklet.mjs");
   createCustomElement("th-squircle");
 }
