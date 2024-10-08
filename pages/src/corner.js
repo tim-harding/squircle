@@ -1,5 +1,4 @@
 import { listenPassive } from "pages/shared";
-import { loaded } from "pages/main";
 
 export class Corner extends HTMLElement {
   #isPressed = false;
@@ -45,12 +44,10 @@ export class Corner extends HTMLElement {
     switch (name) {
       case "side": {
         this.#side = newValue;
-        loaded.then(() => {
-          const event = new CustomEvent("th-corner__register", {
-            bubbles: true,
-          });
-          this.dispatchEvent(event);
+        const event = new CustomEvent("th-corner__register", {
+          bubbles: true,
         });
+        this.dispatchEvent(event);
         break;
       }
     }

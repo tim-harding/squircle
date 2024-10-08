@@ -1,8 +1,9 @@
 {
   "name": "superellipse-squircle",
+  "private": true,
   "version": "0.1.12",
   "type": "module",
-  "main": "src/index.js",
+  "main": "index.js",
   "description": "Smoothest CSS squircles south of Saskatchewan",
   "homepage": "https://tim-harding.github.io/squircle",
   "license": "MIT",

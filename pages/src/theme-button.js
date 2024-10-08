@@ -1,6 +1,6 @@
 import { listenPassive } from "pages/shared";
 
-class ThemeButton extends HTMLElement {
+export class ThemeButton extends HTMLElement {
   _isLight = true;
   /** @type {ElementInternals} */
   _internals;
