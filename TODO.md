@@ -1,9 +1,12 @@
-- [ ] Update readme for API updates
-- [ ] Touch support
-- [ ] Title gradient
-- [ ] Animation
-- [ ] Corner click offset
-- [ ] Footer
-- [ ] Fade in on load
-- [ ] Detect theme preference
-- [ ] Hover states
+- Update readme for API updates
+- Touch support for corners
+- Title gradient
+- Animation
+- Corner click offset
+- Footer
+- Fade in on load
+- Detect theme preference
+- Hover states
+- Bottom margin
+- Don't scroll during range interaction
+- Canvas scaling for DPI
