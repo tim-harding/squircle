@@ -1,9 +1,12 @@
 # https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+# https://v2.vitejs.dev/guide/static-deploy.html#github-pages
+
 name: Deploy with GitHub Pages
 
 on:
   push:
     branches: ["main"]
+
   # Allows manual workflow run
   workflow_dispatch:
 
@@ -23,15 +26,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./demo
-          destination: ./_site
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+
+      # Build, then
+
+      # - name: Upload artifact
+      #   uses: actions/upload-pages-artifact@v3
 
   deploy:
     environment:
@@ -40,6 +39,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      # - name: Deploy to GitHub Pages
+      #   id: deployment
+      #   uses: actions/deploy-pages@v4
