@@ -7,7 +7,7 @@ export * from "./drawing.js";
 
 function registerInner() {
   let isRegistered = false;
-  return function() {
+  return function () {
     if (isRegistered) return;
     isRegistered = true;
 
@@ -19,13 +19,13 @@ function registerInner() {
     if (!CSS.paintWorklet) return;
     /* @ts-ignore */
     CSS.paintWorklet.addModule(workletUrl);
-  }
+  };
 }
 
 /**
  * Register the squircle CSS Paint worklet.
  */
-export const register = registerInner()
+export const register = registerInner();
 
 /**
  * Creates a custom element that uses the Paint API if available or an HTML
@@ -47,8 +47,9 @@ export const register = registerInner()
  *
  * @param {string} [name='th-squircle'] HTML element tag
  */
-export function createCustomElement(name = 'th-squircle') {
-  register()
+export function createCustomElement(name = "th-squircle") {
+  if (customElements.get(name)) return;
+  register();
   /* @ts-ignore */
   const isPaintSupported = !!CSS.paintWorklet;
   const component = isPaintSupported ? SquircleHoudini : SquircleCanvas;
