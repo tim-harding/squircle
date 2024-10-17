@@ -1,6 +1,6 @@
 import SquircleHoudini from "@/squircle-houdini";
 import SquircleCanvas from "@/squircle-canvas";
-import workletUrl from "@/worklet.js?url";
+import workletUrl from "@/worklet.js?worker&url";
 import styles from "@/index.css?inline";
 
 export * from "./drawing.js";
