@@ -33,25 +33,22 @@ export const register = registerInner();
  *
  * Usage:
  * ```js
- * // No argument defaults to th-squircle
- * createCustomElement('my-squircle')
+ * createCustomElement()
  * ```
  * ```html
- * <my-squircle
+ * <ce-squircle
  *     background-color="#deadbeef"
  *     border-radius="16"
  *     border-width="4"
  *     border-color="#cafebabe"
- * ></my-squircle>
+ * ></ce-squircle>
  * ```
- *
- * @param {string} [name='th-squircle'] HTML element tag
  */
-export function createCustomElement(name = "th-squircle") {
-  if (customElements.get(name)) return;
+export function createCustomElement() {
+  if (customElements.get("ce-squircle")) return;
   register();
   /* @ts-ignore */
   const isPaintSupported = !!CSS.paintWorklet;
   const component = isPaintSupported ? SquircleHoudini : SquircleCanvas;
-  customElements.define(name, component);
+  customElements.define("ce-squircle", component);
 }

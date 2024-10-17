@@ -31,7 +31,7 @@ export class DragArea extends HTMLElement {
     this._r = w - SIDE_OFFSET;
     this._b = h - SIDE_OFFSET;
 
-    this._squircle = this.querySelector("th-squircle");
+    this._squircle = this.querySelector("ce-squircle");
     this._updateSquircleCorners();
 
     const observer = new ResizeObserver((entries) => {

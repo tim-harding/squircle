@@ -15,7 +15,7 @@ export class Tester extends HTMLElement {
   }
 
   connectedCallback() {
-    this._squircle = this.querySelector("th-squircle");
+    this._squircle = this.querySelector("ce-squircle");
   }
 
   /**

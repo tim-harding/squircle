@@ -7,7 +7,7 @@ import { ThemeButton } from "pages/theme-button.js";
 
 function main() {
   register();
-  createCustomElement("th-squircle");
+  createCustomElement();
   customElements.define("th-tester", Tester);
   customElements.define("th-drag-area", DragArea);
   customElements.define("th-control", Control);

@@ -357,7 +357,7 @@ main {
   grid-template-areas: "tester";
 }
 
-th-squircle {
+ce-squircle {
   display: grid;
   contain: strict;
   pointer-events: none;
@@ -387,7 +387,7 @@ th-drag-area {
   background-color: var(--mantle);
   border: 1px solid var(--crust);
 
-  & > th-squircle {
+  & > ce-squircle {
     position: absolute;
   }
 }

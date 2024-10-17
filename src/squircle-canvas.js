@@ -24,10 +24,7 @@ export default class SquircleCanvas extends HTMLElement {
     const canvas = document.createElement("canvas");
     this.appendChild(canvas);
 
-    const ctx = canvas.getContext("2d", {
-      // TODO: Do I need to test support first?
-      colorSpace: "display-p3",
-    });
+    const ctx = canvas.getContext("2d", {});
 
     if (ctx === null) {
       console.error("Could not get canvas 2D context");
@@ -50,10 +47,10 @@ export default class SquircleCanvas extends HTMLElement {
           this._width = rect.width;
           this._height = rect.height;
         }
-        this._width = Math.round(this._width);
-        this._height = Math.round(this._height);
-        canvas.width = Math.round(this._width);
-        canvas.height = Math.round(this._height);
+        this._width = Math.floor(this._width);
+        this._height = Math.floor(this._height);
+        canvas.width = Math.floor(this._width);
+        canvas.height = Math.floor(this._height);
         ctx.scale(devicePixelRatio, devicePixelRatio);
         this._draw();
       }

@@ -37,18 +37,18 @@
     <svg viewBox="0 0 512 256" width="512" height="256">
       <path id="squircle-svg" fill="black"></path>
     </svg>
-    <my-squircle
+    <ce-squircle
       background-color="rgb(255, 127, 63)"
       border-radius="16"
       border-width="4"
       border-color="rgb(63, 127, 255)"
-    ></my-squircle>
+    ></ce-squircle>
 
     <script type="module">
       import { register, path, createCustomElement } from "@";
 
       register();
-      createCustomElement("my-squircle");
+      createCustomElement();
 
       const svg = document.getElementById("squircle-svg");
       const d = path(0, 0, 512, 256, 32);

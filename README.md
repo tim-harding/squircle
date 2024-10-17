@@ -9,7 +9,7 @@ magic](https://tim-harding.github.io/squircle/).
 
 ### CSS
 
-First, register the squircle web worker. 
+First, register the squircle web worker.
 
 ```js
 import { register } from "superellipse-squircle";
@@ -19,7 +19,7 @@ register();
 Now you can use `paint(squircle)` as a image source in CSS. Usually that will be
 `background: paint(squircle);`, in which case you can use the provided
 `squircle` class. This includes a fallback to normal rounded rectangles when CSS
-Houdini isn't available. 
+Houdini isn't available.
 
 ```html
 <div
@@ -27,7 +27,8 @@ Houdini isn't available.
   style="
     --squircle-border-radius: 1rem;
     --squircle-background-color: black;"
-></div>;
+></div>
+;
 ```
 
 These properties control the squircle drawing:
@@ -59,19 +60,19 @@ squircles on all platforms, you can use the web component instead. It will add
 an HTML5 `<canvas>` to draw with when the Paint API isn't available.
 
 ```js
-import { createCustomElement } from 'superellipse-squircle';
+import { createCustomElement } from "superellipse-squircle";
 createCustomElement();
 ```
 
 ```html
-<th-squircle
+<ce-squircle
   background-color="rgba(64, 128, 192, 0.5)"
   border-radius="16"
   border-width="4"
   border-color="black"
 >
   Hello, world!
-</th-squircle>
+</ce-squircle>
 ```
 
 ### Canvas
@@ -86,13 +87,22 @@ import { draw, paint } from "superellipse-squircle";
 draw(canvasContext, posX, posY, width, height, borderRadius);
 
 // Draw the squircle with stroke and fill
-paint(canvasContext, posX, posY, width, height, borderRadius, 
-  borderWidth, fillColor, borderColor);
+paint(
+  canvasContext,
+  posX,
+  posY,
+  width,
+  height,
+  borderRadius,
+  borderWidth,
+  fillColor,
+  borderColor,
+);
 ```
 
 ### SVG
 
-You can create a string that is compatible with SVG `path` elements. 
+You can create a string that is compatible with SVG `path` elements.
 
 ```svg
 <svg viewBox="0 0 512 512">
@@ -104,6 +114,6 @@ You can create a string that is compatible with SVG `path` elements.
 import { path } from "superellipse-squircle";
 
 const d = path(0, 0, 512, 512, myRadius);
-const path = document.getElementById('my-path');
+const path = document.getElementById("my-path");
 path.d = d;
 ```
