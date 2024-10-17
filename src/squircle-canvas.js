@@ -21,8 +21,13 @@ export default class SquircleCanvas extends HTMLElement {
   }
 
   connectedCallback() {
+    this.setAttribute("impl", "canvas");
+
     const canvas = document.createElement("canvas");
-    this.appendChild(canvas);
+    const div = document.createElement("div");
+    div.classList.add("ce-squircle-canvas--canvas");
+    div.appendChild(canvas);
+    this.appendChild(div);
 
     const ctx = canvas.getContext("2d", {});
 

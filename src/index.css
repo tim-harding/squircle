@@ -6,6 +6,22 @@
   border-style: solid;
 }
 
+ce-squircle[impl="canvas"] {
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 100%;
+  grid-template-areas: "fill";
+}
+
+ce-squircle[impl="canvas"] > * {
+  grid-area: fill;
+}
+
+.ce-squircle-canvas--canvas {
+  contain: strict;
+  z-index: -1000;
+}
+
 @supports (background: paint(id)) {
   .squircle {
     background: paint(squircle);
