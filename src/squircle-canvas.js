@@ -1,11 +1,52 @@
 import { paint } from "@/drawing";
 
+const styles = new CSSStyleSheet();
+(() => {
+  styles.replace(`
+:host {
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 100%;
+  grid-template-areas: "fill";
+}
+
+.canvas {
+  grid-area: fill;
+  contain: strict;
+  z-index: -1000;
+}
+
+.content {
+  grid-area: fill;
+}
+`);
+})();
+
+const template = new DocumentFragment();
+
+(() => {
+  const canvas = document.createElement("canvas");
+  const div = document.createElement("div");
+  div.classList.add("canvas");
+  div.appendChild(canvas);
+  template.appendChild(div);
+})();
+
+(() => {
+  const slot = document.createElement("slot");
+  const div = document.createElement("div");
+  div.classList.add("content");
+  div.appendChild(slot);
+  template.appendChild(div);
+})();
+
 export default class SquircleCanvas extends HTMLElement {
   _radius = 0;
   _fill = "rgba(0, 0, 0, 0)";
   _borderWidth = 0;
   _borderColor = "rgba(0, 0, 0, 0)";
   _animationFrame = -1;
+  _shadow;
   /** @type {CanvasRenderingContext2D?} */
   _context = null;
 
@@ -18,16 +59,16 @@ export default class SquircleCanvas extends HTMLElement {
 
   constructor() {
     super();
+    this._shadow = this.attachShadow({ mode: "open" });
   }
 
   connectedCallback() {
     this.setAttribute("impl", "canvas");
+    this._shadow.adoptedStyleSheets = [styles];
 
-    const canvas = document.createElement("canvas");
-    const div = document.createElement("div");
-    div.classList.add("ce-squircle-canvas--canvas");
-    div.appendChild(canvas);
-    this.appendChild(div);
+    this._shadow.appendChild(template.cloneNode(true));
+    const canvas = this._shadow.querySelector("canvas");
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d", {});
 

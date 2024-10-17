@@ -12,8 +12,6 @@ export default class SquircleHoudini extends HTMLElement {
 
   connectedCallback() {
     this.setAttribute("impl", "houdini");
-    this.classList.add("squircle");
-    this.style.display = "grid";
   }
 
   /**

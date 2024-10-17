@@ -1,3 +1,4 @@
+ce-squircle,
 .squircle {
   background: var(--squircle-background-color);
   border-radius: var(--squircle-border-radius);
@@ -6,23 +7,8 @@
   border-style: solid;
 }
 
-ce-squircle[impl="canvas"] {
-  display: grid;
-  grid-template-rows: 100%;
-  grid-template-columns: 100%;
-  grid-template-areas: "fill";
-}
-
-ce-squircle[impl="canvas"] > * {
-  grid-area: fill;
-}
-
-.ce-squircle-canvas--canvas {
-  contain: strict;
-  z-index: -1000;
-}
-
 @supports (background: paint(id)) {
+  ce-squircle[impl="houdini"],
   .squircle {
     background: paint(squircle);
     border-radius: initial;
