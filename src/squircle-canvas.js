@@ -1,44 +1,46 @@
 import { paint } from "@/drawing";
 
-const styles = new CSSStyleSheet();
-(() => {
-  styles.replace(`
-:host {
+const stylesString = `
+body {
   display: grid;
-  grid-template-rows: 100%;
-  grid-template-columns: 100%;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas: "fill";
+  padding: 0rem;
+  margin: 0rem;
+  width: 100%;
+  height: 100%;
 }
 
 .canvas {
   grid-area: fill;
+  width: 100%;
+  height: 100%;
   contain: strict;
-  z-index: -1000;
 }
 
 .content {
   grid-area: fill;
+  z-index: 1;
 }
-`);
-})();
+`;
+
+const styles = new CSSStyleSheet();
+styles.replace(stylesString);
+
+const templateString = `
+<div class="canvas">
+  <canvas></canvas>
+</div>
+<div class="content">
+  <slot></slot>
+</div>
+`;
 
 const template = new DocumentFragment();
-
-(() => {
-  const canvas = document.createElement("canvas");
-  const div = document.createElement("div");
-  div.classList.add("canvas");
-  div.appendChild(canvas);
-  template.appendChild(div);
-})();
-
-(() => {
-  const slot = document.createElement("slot");
-  const div = document.createElement("div");
-  div.classList.add("content");
-  div.appendChild(slot);
-  template.appendChild(div);
-})();
+template.append(
+  new DOMParser().parseFromString(templateString, "text/html").body,
+);
 
 export default class SquircleCanvas extends HTMLElement {
   _radius = 0;

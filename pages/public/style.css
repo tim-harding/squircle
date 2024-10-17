@@ -357,12 +357,6 @@ main {
   grid-template-areas: "tester";
 }
 
-ce-squircle {
-  display: grid;
-  contain: strict;
-  pointer-events: none;
-}
-
 th-tester {
   grid-area: tester;
   display: grid;

@@ -1,7 +1,7 @@
 {
   "name": "superellipse-squircle",
   "private": true,
-  "version": "0.1.16",
+  "version": "0.1.17",
   "type": "module",
   "main": "server.js",
   "browser": "client.js",
