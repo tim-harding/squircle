@@ -28,7 +28,6 @@ th-theme-button {
 }
 
 input[type="range"] {
-  all: unset;
   box-sizing: border-box;
   width: 100%;
   height: 0.375rem;
@@ -57,7 +56,6 @@ input[type="range"] {
 }
 
 input[type="color"] {
-  all: unset;
   width: 100%;
   height: 100%;
   border-radius: 0.25rem;
