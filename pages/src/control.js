@@ -21,6 +21,13 @@ export class Control extends HTMLElement {
     const listen = listenPassive.bind(this, input);
     listen("input", this._handleChange);
 
+    input.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
+    });
+    input.addEventListener("touchmove", (e) => {
+      e.stopPropagation();
+    });
+
     this._emitChange(input);
   }
 
