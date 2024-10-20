@@ -19,6 +19,11 @@ body {
   contain: strict;
 }
 
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
 .content {
   grid-area: fill;
   z-index: 1;
@@ -48,6 +53,8 @@ export default class SquircleCanvas extends HTMLElement {
   _borderWidth = 0;
   _borderColor = "rgba(0, 0, 0, 0)";
   _animationFrame = -1;
+  _width = 0;
+  _height = 0;
   _shadow;
   /** @type {CanvasRenderingContext2D?} */
   _context = null;
@@ -83,23 +90,37 @@ export default class SquircleCanvas extends HTMLElement {
     this._width = 0;
     this._height = 0;
 
+    let dprPrevious = devicePixelRatio;
+    window.addEventListener("resize", () => {
+      if (devicePixelRatio !== dprPrevious) {
+        this._width = Math.round(canvas.clientWidth * devicePixelRatio);
+        this._height = Math.round(canvas.clientHeight * devicePixelRatio);
+        canvas.width = this._width;
+        canvas.height = this._height;
+        this._draw();
+      }
+      dprPrevious = devicePixelRatio;
+    });
+
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const sizes = entry.borderBoxSize ?? entry.contentBoxSize;
+        let w, h;
         if (sizes) {
           const [{ inlineSize, blockSize }] = sizes;
-          this._width = inlineSize;
-          this._height = blockSize;
+          w = inlineSize;
+          h = blockSize;
         } else {
           const rect = entry.contentRect;
-          this._width = rect.width;
-          this._height = rect.height;
+          w = rect.width;
+          h = rect.height;
         }
-        this._width = Math.floor(this._width);
-        this._height = Math.floor(this._height);
-        canvas.width = Math.floor(this._width);
-        canvas.height = Math.floor(this._height);
-        ctx.scale(devicePixelRatio, devicePixelRatio);
+        w = Math.round(w * devicePixelRatio);
+        h = Math.round(h * devicePixelRatio);
+        this._width = w;
+        this._height = h;
+        canvas.width = w;
+        canvas.height = h;
         this._draw();
       }
     });
@@ -160,8 +181,8 @@ export default class SquircleCanvas extends HTMLElement {
       0,
       this._width,
       this._height,
-      this._radius,
-      this._borderWidth,
+      this._radius * devicePixelRatio,
+      this._borderWidth * devicePixelRatio,
       this._fill,
       this._borderColor,
     );
