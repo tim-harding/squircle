@@ -103,6 +103,7 @@ body {
     --green --teal --sky --sapphire --blue --lavender;
   transition-duration: 250ms;
   overflow-x: hidden;
+  padding-bottom: 3rem;
 }
 
 header {
