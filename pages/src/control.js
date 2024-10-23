@@ -1,4 +1,4 @@
-import { listenPassive, state } from "pages/shared";
+import { state } from "pages/shared";
 
 export class Control extends HTMLElement {
   _aspect = "";
@@ -18,8 +18,8 @@ export class Control extends HTMLElement {
       return;
     }
 
-    const listen = listenPassive.bind(this, input);
-    listen("input", this._handleChange);
+    // @ts-ignore
+    input.addEventListener("input", this._handleChange.bind(this));
 
     input.addEventListener("touchstart", (e) => {
       e.stopPropagation();

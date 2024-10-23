@@ -1,5 +1,3 @@
-import { listenPassive } from "pages/shared";
-
 export class ThemeButton extends HTMLElement {
   _isLight = true;
   /** @type {ElementInternals} */
@@ -7,9 +5,8 @@ export class ThemeButton extends HTMLElement {
 
   constructor() {
     super();
-    const listen = listenPassive.bind(this, this);
-    listen("click", this._handleClick);
-    listen("keypress", this._handleKey);
+    this.addEventListener("click", this._handleClick);
+    this.addEventListener("keypress", this._handleKey);
     this._internals = this.attachInternals();
     this._internals.role = "button";
     this._internals.ariaPressed = "true";
