@@ -60,17 +60,20 @@ export function paint(
   const isBorderTransparent = TRANSPARENT.test(borderColor);
   const isBorderVisible = borderWidth > 0 && !isBorderTransparent;
 
+  ctx.save();
+  ctx.beginPath();
   draw(ctx, x, y, width, height, radius);
   ctx.clip();
 
   if (isFillVisible) {
     ctx.fillStyle = fill;
     ctx.beginPath();
-    ctx.rect(0, 0, width, height);
+    ctx.rect(x, y, width, height);
     ctx.fill();
   }
 
   if (isBorderVisible) {
+    ctx.beginPath();
     draw(
       ctx,
       x + borderWidth,
@@ -79,9 +82,11 @@ export function paint(
       height - borderWidth * 2,
       radius - borderWidth / Math.SQRT2,
     );
+    ctx.rect(x, y, width, height);
     ctx.fillStyle = borderColor;
     ctx.fill("evenodd");
   }
+  ctx.restore();
 }
 
 /**
