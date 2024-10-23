@@ -1,7 +1,7 @@
-import { listenPassive } from "pages/shared";
+import { listenPassive, state } from "pages/shared";
 
 export class Control extends HTMLElement {
-  #aspect = "";
+  _aspect = "";
 
   static get observedAttributes() {
     return ["aspect"];
@@ -39,7 +39,7 @@ export class Control extends HTMLElement {
   attributeChangedCallback(name, _, newValue) {
     switch (name) {
       case "aspect": {
-        this.#aspect = newValue;
+        this._aspect = newValue;
         break;
       }
     }
@@ -59,14 +59,27 @@ export class Control extends HTMLElement {
    */
   _emitChange(input) {
     const value = input.value;
-    const event = new CustomEvent("th-control__change", {
-      detail: {
-        value: input.type === "range" ? `${value}px` : value,
-        aspect: this.#aspect,
-      },
-      bubbles: true,
-    });
-    this.dispatchEvent(event);
+    switch (this._aspect) {
+      case "border-radius": {
+        state.radius = parseFloat(value);
+        break;
+      }
+
+      case "border-width": {
+        state.borderWidth = parseFloat(value);
+        break;
+      }
+
+      case "fill": {
+        state.fill = value;
+        break;
+      }
+
+      case "border-color": {
+        state.borderColor = value;
+        break;
+      }
+    }
   }
 }
 

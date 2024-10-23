@@ -1,4 +1,5 @@
 import { paint } from "@/index";
+import { state } from "pages/shared";
 
 /**
  * @typedef {Object} Point
@@ -18,6 +19,7 @@ export class DragArea extends HTMLElement {
 
   constructor() {
     super();
+    state.subscribe(this._handleState.bind(this));
   }
 
   connectedCallback() {
@@ -58,6 +60,10 @@ export class DragArea extends HTMLElement {
     this._redraw();
   }
 
+  _handleState() {
+    this._redraw();
+  }
+
   _redraw() {
     const canvas = this._canvas;
     const ctx = this._context;
@@ -85,10 +91,10 @@ export class DragArea extends HTMLElement {
       Math.min(y0, y1),
       Math.abs(x0 - x1),
       Math.abs(y0 - y1),
-      16,
-      6,
-      "green",
-      "blue",
+      state.radius,
+      state.borderWidth,
+      state.fill,
+      state.borderColor,
     );
   }
 
