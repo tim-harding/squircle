@@ -1,145 +1,105 @@
-import { listenPassive } from "pages/shared";
-import { Corner } from "pages/corner";
+import { paint } from "@/index";
 
-const SIDE_OFFSET = 32;
+/**
+ * @typedef {Object} Point
+ * @property {number} x
+ * @property {number} y
+ */
 
 export class DragArea extends HTMLElement {
-  _l = SIDE_OFFSET;
-  _r = 0;
-  _t = SIDE_OFFSET;
-  _b = 0;
-  _width = 0;
-  _height = 0;
-  /** @type {HTMLElement?} */
-  _squircle = null;
-  /** @type {Corner?} */
-  _topLeft = null;
-  /** @type {Corner?} */
-  _bottomRight = null;
+  /** @type {Point} */
+  _p0 = { x: 1 / 16, y: 1 / 16 };
+  /** @type {Point} */
+  _p1 = { x: 15 / 16, y: 15 / 16 };
+  /** @type {HTMLCanvasElement?} */
+  _canvas = null;
+  /** @type {CanvasRenderingContext2D?} */
+  _context = null;
 
   constructor() {
     super();
-    const listen = listenPassive.bind(this, this);
-    listen("th-corner__update", this._handleCornerUpdate);
-    listen("th-corner__register", this._handleCornerRegister);
   }
 
   connectedCallback() {
-    const { clientWidth: w, clientHeight: h } = this;
-    this._width = w;
-    this._height = h;
-    this._r = w - SIDE_OFFSET;
-    this._b = h - SIDE_OFFSET;
+    const canvas = this.querySelector("canvas");
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+    this._canvas = canvas;
 
-    this._squircle = this.querySelector("ce-squircle");
-    this._updateSquircleCorners();
+    let prevDpr = devicePixelRatio;
+    window.addEventListener("resize", () => {
+      if (devicePixelRatio != prevDpr) {
+        const canvas = this._canvas;
+        if (!canvas) return;
+        canvas.width = canvas.clientWidth * devicePixelRatio;
+        canvas.height = canvas.clientHeight * devicePixelRatio;
+        this._redraw();
+      }
+      prevDpr = devicePixelRatio;
+    });
 
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const sizes = entry.borderBoxSize ?? entry.contentBoxSize;
-        if (sizes) {
-          const [{ inlineSize, blockSize }] = sizes;
-          this._width = inlineSize;
-          this._height = blockSize;
+    const observer = new ResizeObserver((events) => {
+      for (const event of events) {
+        let w, h;
+        if (event.contentBoxSize) {
+          w = event.contentBoxSize[0].inlineSize;
+          h = event.contentBoxSize[0].blockSize;
         } else {
-          const { width, height } = entry.contentRect;
-          this._width = width;
-          this._height = height;
+          w = event.contentRect.width;
+          h = event.contentRect.height;
         }
-
-        this._l = Math.min(this._l, this._width);
-        this._r = Math.min(this._r, this._width);
-        this._t = Math.min(this._t, this._height);
-        this._b = Math.min(this._b, this._height);
-
-        this._updateSquircleCorners();
-
-        if (this._topLeft !== null) {
-          this._topLeft.x = `${this._l}px`;
-          this._topLeft.y = `${this._t}px`;
-        }
-
-        if (this._bottomRight !== null) {
-          this._bottomRight.x = `${this._r}px`;
-          this._bottomRight.y = `${this._b}px`;
-        }
+        canvas.width = w * devicePixelRatio;
+        canvas.height = h * devicePixelRatio;
+        this._redraw();
       }
     });
     observer.observe(this);
+
+    this._context = this._canvas.getContext("2d");
+    this._redraw();
   }
 
-  /**
-   * @param {CustomEvent} event
-   */
-  _handleCornerRegister(event) {
-    const corner = event.target;
-    if (!(corner instanceof Corner)) return;
+  _redraw() {
+    const canvas = this._canvas;
+    const ctx = this._context;
+    if (!canvas || !ctx) return;
 
-    switch (corner.side) {
-      case "top-left": {
-        corner.x = `${this._l}px`;
-        corner.y = `${this._t}px`;
-        this._topLeft = corner;
-        break;
-      }
+    const { width, height } = canvas;
+    let { x: x0, y: y0 } = this._p0;
+    let { x: x1, y: y1 } = this._p1;
 
-      case "bottom-right": {
-        corner.x = `${this._r}px`;
-        corner.y = `${this._b}px`;
-        this._bottomRight = corner;
-        break;
-      }
-    }
+    x0 *= width;
+    x1 *= width;
+    y0 *= height;
+    y1 *= height;
+
+    ctx.reset();
+    ctx.beginPath();
+    ctx.ellipse(x0, y0, 16, 16, 0, 0, 2 * Math.PI, false);
+    ctx.ellipse(x1, y1, 16, 16, 0, 0, 2 * Math.PI, false);
+    ctx.fillStyle = "red";
+    ctx.fill();
+
+    paint(
+      ctx,
+      Math.min(x0, x1),
+      Math.min(y0, y1),
+      Math.abs(x0 - x1),
+      Math.abs(y0 - y1),
+      16,
+      6,
+      "green",
+      "blue",
+    );
   }
 
   /**
    * @param {CustomEvent} event
    */
   _handleCornerUpdate(event) {
-    const corner = event.target;
-    if (!(corner instanceof Corner)) return;
-
     const { x: xSelf, y: ySelf, width, height } = this.getBoundingClientRect();
     const { side, x: xViewport, y: yViewport } = event.detail;
-
     const x = Math.max(0, Math.min(width, xViewport - xSelf));
     const y = Math.max(0, Math.min(height, yViewport - ySelf));
-
-    corner.x = `${x}px`;
-    corner.y = `${y}px`;
-
-    switch (side) {
-      case "top-left": {
-        this._l = x;
-        this._t = y;
-        break;
-      }
-
-      case "bottom-right": {
-        this._r = x;
-        this._b = y;
-        break;
-      }
-    }
-
-    this._updateSquircleCorners();
-  }
-
-  _updateSquircleCorners() {
-    const { _l: l, _r: r, _t: t, _b: b } = this;
-    const xMin = Math.min(l, r);
-    const xMax = Math.max(l, r);
-    const yMin = Math.min(t, b);
-    const yMax = Math.max(t, b);
-    const width = xMax - xMin;
-    const height = yMax - yMin;
-
-    const squircle = this._squircle;
-    if (squircle === null) return;
-    squircle.style.left = `${xMin}px`;
-    squircle.style.top = `${yMin}px`;
-    squircle.style.width = `${width}px`;
-    squircle.style.height = `${height}px`;
   }
 }
 
