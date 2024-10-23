@@ -11,6 +11,7 @@ class State {
    */
   subscribe(cb) {
     this.#subscribers.push(cb);
+    cb();
   }
 
   #publish() {

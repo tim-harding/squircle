@@ -202,11 +202,12 @@ main {
   }
 }
 
-th-drag-area {
+.squircle-container {
   grid-area: "drag-area";
-  contain: strict;
-  background-color: var(--mantle);
-  border: 1px solid var(--crust);
+  display: grid;
+  resize: both;
+  overflow: hidden;
+  padding: 1rem;
 }
 
 th-control {
