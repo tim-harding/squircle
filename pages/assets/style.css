@@ -190,7 +190,6 @@ main {
   grid-template-rows: minmax(32rem, 1fr);
   grid-template-columns: 1fr 16rem;
   grid-template-areas: "drag-area form";
-  gap: 2rem;
 
   & > form {
     grid-area: form;
@@ -207,7 +206,27 @@ main {
   display: grid;
   resize: both;
   overflow: hidden;
-  padding: 1rem;
+  padding: 1.5rem;
+  position: relative;
+
+  @supports (resize: both) {
+    &::after {
+      content: "Resize me →";
+      display: block;
+      position: absolute;
+      font-weight: 500;
+      right: 1rem;
+      bottom: 0rem;
+      line-height: 1;
+      transition: opacity 250ms;
+    }
+  }
+}
+
+.squircle-container.hide-after {
+  &::after {
+    opacity: 0;
+  }
 }
 
 th-control {

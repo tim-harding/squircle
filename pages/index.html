@@ -80,7 +80,10 @@
 
     <main>
       <div class="tester">
-        <div class="squircle-container">
+        <div
+          class="squircle-container"
+          onmousedown="this.classList.add('hide-after')"
+        >
           <ce-squircle></ce-squircle>
         </div>
 
@@ -103,7 +106,7 @@
               type="range"
               min="0"
               max="64"
-              value="4"
+              value="8"
             />
           </th-control>
 
